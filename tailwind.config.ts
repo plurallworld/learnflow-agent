@@ -88,12 +88,14 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-learning': 'var(--gradient-learning)',
 				'gradient-mcp': 'var(--gradient-mcp)',
-				'gradient-subtle': 'var(--gradient-subtle)'
+				'gradient-subtle': 'var(--gradient-subtle)',
+				'gradient-card': 'var(--gradient-card)'
 			},
 			boxShadow: {
 				'learning': 'var(--shadow-learning)',
 				'mcp': 'var(--shadow-mcp)',
-				'elevated': 'var(--shadow-elevated)'
+				'elevated': 'var(--shadow-elevated)',
+				'card': 'var(--shadow-card)'
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)'

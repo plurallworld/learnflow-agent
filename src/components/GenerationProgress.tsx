@@ -100,7 +100,7 @@ export function GenerationProgress() {
   }, [currentStep]);
 
   return (
-    <Card className="shadow-elevated border-0 bg-gradient-to-br from-primary/5 to-accent/5 backdrop-blur-sm">
+    <Card className="shadow-elevated border-border/50 bg-gradient-to-br from-primary/10 to-accent/5">
       <CardContent className="p-6">
         <div className="text-center mb-6">
           <div className="flex justify-center mb-3">

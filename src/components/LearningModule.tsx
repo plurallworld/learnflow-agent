@@ -81,8 +81,8 @@ export function LearningModule({ module, moduleNumber }: LearningModuleProps) {
 
   return (
     <Card className={cn(
-      "shadow-learning border-0 bg-card/80 backdrop-blur-sm transition-all duration-300 hover:shadow-elevated",
-      module.completed && "bg-success/5 border-success/20",
+      "shadow-card border-border/50 bg-gradient-card transition-all duration-200 hover:shadow-elevated",
+      module.completed && "bg-success/5 border-success/30",
       isLocked && "opacity-60"
     )}>
       <CardHeader className="pb-3">

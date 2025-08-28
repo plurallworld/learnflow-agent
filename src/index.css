@@ -2,157 +2,126 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Learning Platform Design System - All colors MUST be HSL */
+/* Professional Dark Theme Design System - Lovable Inspired */
 
 @layer base {
   :root {
-    /* Core Learning Platform Colors */
-    --background: 244 20% 97%;
-    --foreground: 230 25% 15%;
+    /* Professional Dark Theme Colors */
+    --background: 222 15% 7%;
+    --foreground: 210 20% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 230 25% 15%;
+    --card: 222 13% 9%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 230 25% 15%;
+    --popover: 222 13% 9%;
+    --popover-foreground: 210 20% 95%;
 
-    /* Learning Platform Brand Colors */
-    --primary: 245 75% 55%;
-    --primary-foreground: 0 0% 98%;
-    --primary-glow: 245 85% 70%;
+    /* Professional Brand Colors */
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 15% 7%;
+    --primary-glow: 217 91% 75%;
 
-    --secondary: 240 15% 95%;
-    --secondary-foreground: 230 25% 15%;
+    --secondary: 222 13% 11%;
+    --secondary-foreground: 210 20% 85%;
 
-    --muted: 240 15% 96%;
-    --muted-foreground: 230 15% 55%;
+    --muted: 222 13% 10%;
+    --muted-foreground: 215 15% 65%;
 
-    --accent: 280 65% 60%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 210 20% 95%;
 
-    /* Learning Status Colors */
-    --success: 142 76% 45%;
-    --success-foreground: 0 0% 98%;
+    /* Status Colors */
+    --success: 142 86% 55%;
+    --success-foreground: 222 15% 7%;
     
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 98%;
+    --warning: 48 96% 53%;
+    --warning-foreground: 222 15% 7%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 95%;
 
     /* Learning Platform Specific */
-    --learning-concept: 195 100% 50%;
-    --learning-coding: 110 80% 45%;
-    --learning-mcq: 280 65% 60%;
-    --learning-video: 15 85% 55%;
-    --learning-case: 260 70% 60%;
+    --learning-concept: 217 91% 60%;
+    --learning-coding: 142 86% 55%;
+    --learning-mcq: 271 91% 65%;
+    --learning-video: 25 95% 53%;
+    --learning-case: 262 83% 58%;
 
     /* MCP Server Colors */
-    --mcp-primary: 320 85% 55%;
-    --mcp-secondary: 320 25% 85%;
-    --mcp-accent: 320 100% 70%;
+    --mcp-primary: 300 89% 64%;
+    --mcp-secondary: 300 20% 15%;
+    --mcp-accent: 300 100% 80%;
 
-    /* Borders and Inputs */
-    --border: 240 20% 88%;
-    --input: 240 20% 88%;
-    --ring: 245 75% 55%;
+    /* Professional Interface */
+    --border: 222 13% 15%;
+    --input: 222 13% 12%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    /* Professional Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
     --gradient-learning: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
     --gradient-mcp: linear-gradient(135deg, hsl(var(--mcp-primary)) 0%, hsl(var(--mcp-accent)) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(222 13% 11%) 100%);
 
-    /* Shadows */
-    --shadow-learning: 0 10px 40px -10px hsl(var(--primary) / 0.2);
-    --shadow-mcp: 0 10px 40px -10px hsl(var(--mcp-primary) / 0.3);
-    --shadow-elevated: 0 20px 60px -10px hsl(var(--primary) / 0.15);
+    /* Professional Shadows */
+    --shadow-learning: 0 8px 30px -8px hsl(var(--primary) / 0.4);
+    --shadow-mcp: 0 8px 30px -8px hsl(var(--mcp-primary) / 0.3);
+    --shadow-elevated: 0 20px 50px -12px hsl(0 0% 0% / 0.25);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.15);
 
-    /* Transitions */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
+    /* Professional Transitions */
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    /* Core Learning Platform Colors - Dark Mode */
-    --background: 230 25% 8%;
-    --foreground: 240 15% 95%;
+    /* Same as root for consistent dark theme */
+    --background: 222 15% 7%;
+    --foreground: 210 20% 95%;
 
-    --card: 230 20% 10%;
-    --card-foreground: 240 15% 95%;
+    --card: 222 13% 9%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 230 20% 10%;
-    --popover-foreground: 240 15% 95%;
+    --popover: 222 13% 9%;
+    --popover-foreground: 210 20% 95%;
 
-    /* Learning Platform Brand Colors - Dark Mode */
-    --primary: 245 85% 70%;
-    --primary-foreground: 230 25% 8%;
-    --primary-glow: 245 95% 80%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 15% 7%;
+    --primary-glow: 217 91% 75%;
 
-    --secondary: 230 20% 15%;
-    --secondary-foreground: 240 15% 90%;
+    --secondary: 222 13% 11%;
+    --secondary-foreground: 210 20% 85%;
 
-    --muted: 230 15% 12%;
-    --muted-foreground: 240 10% 60%;
+    --muted: 222 13% 10%;
+    --muted-foreground: 215 15% 65%;
 
-    --accent: 280 75% 70%;
-    --accent-foreground: 230 25% 8%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 210 20% 95%;
 
-    /* Learning Status Colors - Dark Mode */
-    --success: 142 85% 55%;
-    --success-foreground: 230 25% 8%;
+    --success: 142 86% 55%;
+    --success-foreground: 222 15% 7%;
     
-    --warning: 38 100% 60%;
-    --warning-foreground: 230 25% 8%;
+    --warning: 48 96% 53%;
+    --warning-foreground: 222 15% 7%;
 
-    --destructive: 0 85% 65%;
-    --destructive-foreground: 240 15% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 95%;
 
-    /* Learning Platform Specific - Dark Mode */
-    --learning-concept: 195 100% 60%;
-    --learning-coding: 110 90% 55%;
-    --learning-mcq: 280 75% 70%;
-    --learning-video: 15 95% 65%;
-    --learning-case: 260 80% 70%;
+    --learning-concept: 217 91% 60%;
+    --learning-coding: 142 86% 55%;
+    --learning-mcq: 271 91% 65%;
+    --learning-video: 25 95% 53%;
+    --learning-case: 262 83% 58%;
 
-    /* MCP Server Colors - Dark Mode */
-    --mcp-primary: 320 95% 65%;
-    --mcp-secondary: 320 15% 25%;
-    --mcp-accent: 320 100% 80%;
+    --mcp-primary: 300 89% 64%;
+    --mcp-secondary: 300 20% 15%;
+    --mcp-accent: 300 100% 80%;
 
-    /* Borders and Inputs - Dark Mode */
-    --border: 230 15% 18%;
-    --input: 230 15% 18%;
-    --ring: 245 85% 70%;
-
-    /* Gradients - Dark Mode */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-learning: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
-    --gradient-mcp: linear-gradient(135deg, hsl(var(--mcp-primary)) 0%, hsl(var(--mcp-accent)) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
-
-    /* Shadows - Dark Mode */
-    --shadow-learning: 0 10px 40px -10px hsl(var(--primary) / 0.3);
-    --shadow-mcp: 0 10px 40px -10px hsl(var(--mcp-primary) / 0.4);
-    --shadow-elevated: 0 20px 60px -10px hsl(var(--primary) / 0.25);
+    --border: 222 13% 15%;
+    --input: 222 13% 12%;
+    --ring: 217 91% 60%;
   }
 }
 

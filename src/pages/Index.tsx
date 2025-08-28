@@ -92,119 +92,128 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
-      {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-primary rounded-xl">
-              <Brain className="h-6 w-6 text-primary-foreground" />
+    <div className="min-h-screen bg-background">
+      {/* Professional Header */}
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/20 rounded-lg border border-primary/30">
+                <Brain className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-lg font-semibold text-foreground">
+                  LearningPath AI
+                </h1>
+                <p className="text-xs text-muted-foreground">
+                  Autonomous Learning Platform
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-learning bg-clip-text text-transparent">
-                LearningPath AI
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Autonomous Learning with MCP Server Intelligence
-              </p>
+            
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="border-accent/30 text-accent text-xs">
+                <div className="h-1.5 w-1.5 bg-accent rounded-full mr-1 animate-pulse"></div>
+                MCP Online
+              </Badge>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Generator Panel */}
+      <div className="container mx-auto px-6 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Sidebar Generator Panel */}
           <div className="lg:col-span-1">
-            <Card className="shadow-learning border-0 bg-card/80 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-accent" />
-                  Generate Learning Path
-                </CardTitle>
-                <CardDescription>
-                  Create a personalized, structured learning experience powered by autonomous agents
+            <Card className="shadow-card border-border/50 bg-gradient-card">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  <CardTitle className="text-sm">Generate Path</CardTitle>
+                </div>
+                <CardDescription className="text-xs">
+                  Create structured learning with AI agents
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 <div className="space-y-2">
-                  <Label htmlFor="topic">Learning Topic</Label>
+                  <Label htmlFor="topic" className="text-xs font-medium">Topic</Label>
                   <Input
                     id="topic"
-                    placeholder="e.g., Autonomous Agents, Machine Learning..."
+                    placeholder="Autonomous Agents, ML..."
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
-                    className="border-border/50 focus:border-primary"
+                    className="h-8 text-xs bg-input border-border/50 focus:border-primary/50"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="experience">Experience Level & Goals</Label>
+                  <Label htmlFor="experience" className="text-xs font-medium">Background</Label>
                   <Textarea
                     id="experience"
-                    placeholder="Describe your current knowledge and what you want to achieve..."
+                    placeholder="Your experience and goals..."
                     value={experience}
                     onChange={(e) => setExperience(e.target.value)}
-                    rows={3}
-                    className="border-border/50 focus:border-primary resize-none"
+                    rows={2}
+                    className="text-xs bg-input border-border/50 focus:border-primary/50 resize-none"
                   />
                 </div>
 
                 <Button 
                   onClick={handleGenerate}
                   disabled={!topic.trim() || isGenerating}
-                  className="w-full bg-gradient-primary hover:opacity-90 transition-opacity shadow-learning"
+                  className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   {isGenerating ? (
                     <>
-                      <Zap className="h-4 w-4 mr-2 animate-pulse" />
+                      <Zap className="h-3 w-3 mr-1 animate-pulse" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <Sparkles className="h-4 w-4 mr-2" />
-                      Generate Path
+                      <Sparkles className="h-3 w-3 mr-1" />
+                      Generate
                     </>
                   )}
                 </Button>
 
-                {/* Quick Stats */}
-                <div className="pt-4 border-t border-border/30">
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-primary">15-30</div>
-                      <div className="text-xs text-muted-foreground">Minutes per module</div>
+                {/* Stats */}
+                <div className="pt-3 border-t border-border/30">
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div className="p-2 bg-muted/30 rounded border border-border/30">
+                      <div className="text-sm font-semibold text-primary">15-30</div>
+                      <div className="text-xs text-muted-foreground">min/module</div>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-accent">100%</div>
-                      <div className="text-xs text-muted-foreground">Personalized</div>
+                    <div className="p-2 bg-muted/30 rounded border border-border/30">
+                      <div className="text-sm font-semibold text-accent">AI</div>
+                      <div className="text-xs text-muted-foreground">Powered</div>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* MCP Server Highlight */}
+            {/* MCP Server Status */}
             <MCPServerHighlight />
           </div>
 
           {/* Main Content Area */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             {isGenerating && <GenerationProgress />}
             
             {generatedPath && !isGenerating && (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Path Overview */}
-                <Card className="shadow-elevated border-0 bg-card/80 backdrop-blur-sm">
-                  <CardHeader>
+                <Card className="shadow-card border-border/50 bg-gradient-card">
+                  <CardHeader className="pb-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <CardTitle className="text-xl">Autonomous Agents Learning Path</CardTitle>
-                        <CardDescription>
-                          Structured 5-module journey • ~100 minutes total • Professional Level
+                        <CardTitle className="text-lg text-foreground">Autonomous Agents Learning Path</CardTitle>
+                        <CardDescription className="text-xs">
+                          Professional 5-module journey • ~100 minutes • Advanced Level
                         </CardDescription>
                       </div>
-                      <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
+                      <Badge className="bg-success/20 text-success border-success/30 text-xs">
                         <CheckCircle className="h-3 w-3 mr-1" />
                         Generated
                       </Badge>
@@ -212,45 +221,45 @@ const Index = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-4 mb-4">
-                      <Progress value={0} className="flex-1" />
-                      <span className="text-sm text-muted-foreground">0% Complete</span>
+                      <Progress value={0} className="flex-1 h-2" />
+                      <span className="text-xs text-muted-foreground">0% Complete</span>
                     </div>
                     
                     <div className="flex flex-wrap gap-2 mb-4">
-                      <Badge variant="outline" className="border-learning-concept/30 text-learning-concept">
+                      <Badge variant="outline" className="border-learning-concept/30 text-learning-concept text-xs">
                         <FileText className="h-3 w-3 mr-1" />
                         2 Concepts
                       </Badge>
-                      <Badge variant="outline" className="border-learning-case/30 text-learning-case">
+                      <Badge variant="outline" className="border-learning-case/30 text-learning-case text-xs">
                         <BookOpen className="h-3 w-3 mr-1" />
                         1 Case Study
                       </Badge>
-                      <Badge variant="outline" className="border-learning-coding/30 text-learning-coding">
+                      <Badge variant="outline" className="border-learning-coding/30 text-learning-coding text-xs">
                         <Code className="h-3 w-3 mr-1" />
                         1 Coding Lab
                       </Badge>
-                      <Badge variant="outline" className="border-learning-video/30 text-learning-video">
+                      <Badge variant="outline" className="border-learning-video/30 text-learning-video text-xs">
                         <PlayCircle className="h-3 w-3 mr-1" />
                         1 Video
                       </Badge>
-                      <Badge variant="outline" className="border-learning-mcq/30 text-learning-mcq">
+                      <Badge variant="outline" className="border-learning-mcq/30 text-learning-mcq text-xs">
                         <CheckCircle className="h-3 w-3 mr-1" />
                         1 Assessment
                       </Badge>
                     </div>
 
-                    {/* Professional Learning Metrics */}
-                    <div className="grid grid-cols-3 gap-4 p-3 bg-muted/20 rounded-lg border border-border/30">
+                    {/* Professional Metrics */}
+                    <div className="grid grid-cols-3 gap-3 p-3 bg-muted/20 rounded border border-border/30">
                       <div className="text-center">
-                        <div className="text-lg font-bold text-primary">100min</div>
-                        <div className="text-xs text-muted-foreground">Total Time</div>
+                        <div className="text-sm font-bold text-primary">100min</div>
+                        <div className="text-xs text-muted-foreground">Duration</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-lg font-bold text-accent">95%</div>
-                        <div className="text-xs text-muted-foreground">Success Rate</div>
+                        <div className="text-sm font-bold text-accent">95%</div>
+                        <div className="text-xs text-muted-foreground">Success</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-lg font-bold text-success">Pro</div>
+                        <div className="text-sm font-bold text-success">Pro</div>
                         <div className="text-xs text-muted-foreground">Level</div>
                       </div>
                     </div>
@@ -258,7 +267,7 @@ const Index = () => {
                 </Card>
 
                 {/* Learning Modules */}
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {learningModules.map((module, index) => (
                     <LearningModule 
                       key={module.id} 
@@ -271,15 +280,15 @@ const Index = () => {
             )}
 
             {!generatedPath && !isGenerating && (
-              <Card className="shadow-learning border-0 bg-card/50 backdrop-blur-sm">
+              <Card className="shadow-card border-border/50 bg-gradient-card">
                 <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="p-4 bg-gradient-primary rounded-2xl mb-4">
-                    <Brain className="h-12 w-12 text-primary-foreground" />
+                  <div className="p-4 bg-primary/20 rounded-lg border border-primary/30 mb-4">
+                    <Brain className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">Ready to Learn?</h3>
-                  <p className="text-muted-foreground max-w-md">
-                    Enter your learning topic and let our autonomous agents create a personalized, 
-                    structured learning path with interactive content and real-time progress tracking.
+                  <h3 className="text-lg font-semibold mb-2 text-foreground">Professional Learning Awaits</h3>
+                  <p className="text-sm text-muted-foreground max-w-md">
+                    Generate a structured learning path powered by autonomous agents 
+                    and MCP server technology for professional skill development.
                   </p>
                 </CardContent>
               </Card>

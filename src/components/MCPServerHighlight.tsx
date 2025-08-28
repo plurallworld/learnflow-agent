@@ -41,7 +41,7 @@ export function MCPServerHighlight() {
   ];
 
   return (
-    <Card className="mt-6 shadow-mcp border-0 bg-gradient-to-br from-mcp-secondary/20 to-mcp-secondary/5 backdrop-blur-sm">
+    <Card className="mt-4 shadow-mcp border-border/50 bg-gradient-to-br from-mcp-secondary/30 to-card">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-mcp-primary">
           <div className="p-1.5 bg-gradient-mcp rounded-lg">
