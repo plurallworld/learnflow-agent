@@ -14,31 +14,68 @@ import { useState, useEffect } from "react";
 const generationSteps = [
   {
     id: 1,
-    label: "Analyzing Learning Requirements",
-    description: "Processing your topic and experience level",
+    label: "Parsing Learning Context",
+    description: "Analyzing topic complexity and user background",
     icon: Brain,
-    duration: 800
+    duration: 600,
+    thinking: [
+      "Identifying key concepts in autonomous agents",
+      "Mapping prerequisite knowledge gaps", 
+      "Determining optimal learning sequence",
+      "Assessing complexity level requirements"
+    ]
   },
   {
     id: 2,
-    label: "Consulting Knowledge Base",
-    description: "Accessing curated learning resources",
+    label: "Consulting Expert Knowledge Base",
+    description: "Accessing curated educational resources",
     icon: Database,
-    duration: 600
+    duration: 800,
+    thinking: [
+      "Querying 50,000+ educational resources",
+      "Cross-referencing industry best practices",
+      "Validating content accuracy and relevance",
+      "Selecting peer-reviewed case studies"
+    ]
   },
   {
     id: 3,
-    label: "Coordinating Agent Network",
-    description: "Activating specialized learning agents",
+    label: "Orchestrating MCP Agent Network",
+    description: "Coordinating specialized learning agents",
     icon: Users,
-    duration: 700
+    duration: 700,
+    thinking: [
+      "Activating Content Generation Agent",
+      "Initializing Assessment Design Agent", 
+      "Coordinating Code Environment Agent",
+      "Synchronizing Progress Tracking Agent"
+    ]
   },
   {
     id: 4,
-    label: "Generating Structured Modules", 
-    description: "Creating personalized 15-30 min modules",
+    label: "Designing Learning Architecture",
+    description: "Structuring optimal learning progression",
     icon: Sparkles,
-    duration: 900
+    duration: 900,
+    thinking: [
+      "Calculating optimal module duration (15-30 min)",
+      "Sequencing concepts for maximum retention",
+      "Designing interactive coding challenges",
+      "Creating adaptive assessment questions"
+    ]
+  },
+  {
+    id: 5,
+    label: "Personalizing Content Delivery",
+    description: "Tailoring experience to user preferences",
+    icon: Brain,
+    duration: 650,
+    thinking: [
+      "Adapting language complexity to user level",
+      "Selecting relevant industry examples",
+      "Customizing prerequisite recommendations",
+      "Generating personalized practice scenarios"
+    ]
   }
 ];
 
@@ -134,9 +171,24 @@ export function GenerationProgress() {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground mb-2">
                       {step.description}
                     </p>
+                    
+                    {/* Thinking Process - Show only for active step */}
+                    {isActive && step.thinking && (
+                      <div className="mt-2 p-2 bg-primary/5 rounded border border-primary/10">
+                        <div className="text-xs font-medium text-primary mb-1">Thinking...</div>
+                        <div className="space-y-1">
+                          {step.thinking.map((thought, idx) => (
+                            <div key={idx} className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <div className="h-1 w-1 bg-primary/60 rounded-full animate-pulse"></div>
+                              <span>{thought}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               );

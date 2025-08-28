@@ -22,6 +22,10 @@ interface LearningModuleProps {
     duration: string;
     description: string;
     completed: boolean;
+    outcome: string;
+    prerequisites: string[];
+    nextSteps: string[];
+    keyTopics: string[];
   };
   moduleNumber: number;
 }
@@ -168,52 +172,60 @@ export function LearningModule({ module, moduleNumber }: LearningModuleProps) {
           </Button>
         </div>
 
-        {/* Module Preview */}
+        {/* Comprehensive Module Information */}
         {canStart && !module.completed && (
-          <div className="mt-4 p-3 bg-muted/30 rounded-lg border border-border/30">
-            <div className="text-xs text-muted-foreground mb-2">What you'll learn:</div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {module.type === 'concept' && (
-                <>
-                  <div>• Core principles</div>
-                  <div>• Key terminology</div>
-                  <div>• Practical examples</div>
-                  <div>• Best practices</div>
-                </>
-              )}
-              {module.type === 'coding' && (
-                <>
-                  <div>• Hands-on coding</div>
-                  <div>• Interactive examples</div>
-                  <div>• Code debugging</div>
-                  <div>• Real implementation</div>
-                </>
-              )}
-              {module.type === 'video' && (
-                <>
-                  <div>• Visual explanations</div>
-                  <div>• Expert insights</div>
-                  <div>• Real-world demos</div>
-                  <div>• Interactive elements</div>
-                </>
-              )}
-              {module.type === 'mcq' && (
-                <>
-                  <div>• Knowledge validation</div>
-                  <div>• Adaptive questions</div>
-                  <div>• Instant feedback</div>
-                  <div>• Progress tracking</div>
-                </>
-              )}
-              {module.type === 'case' && (
-                <>
-                  <div>• Real-world scenario</div>
-                  <div>• Problem-solving</div>
-                  <div>• Industry insights</div>
-                  <div>• Practical application</div>
-                </>
-              )}
+          <div className="mt-4 space-y-3">
+            {/* Learning Outcome */}
+            <div className="p-3 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border border-primary/10">
+              <div className="text-xs font-medium text-primary mb-1">🎯 Learning Outcome</div>
+              <p className="text-xs text-foreground">{module.outcome}</p>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {/* Prerequisites */}
+              <div className="p-3 bg-muted/30 rounded-lg border border-border/30">
+                <div className="text-xs font-medium text-muted-foreground mb-2">📚 Prerequisites</div>
+                <div className="space-y-1">
+                  {module.prerequisites.map((prereq, idx) => (
+                    <div key={idx} className="text-xs text-muted-foreground">
+                      • {prereq}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Key Topics */}
+              <div className="p-3 bg-muted/30 rounded-lg border border-border/30">
+                <div className="text-xs font-medium text-muted-foreground mb-2">🔑 Key Topics</div>
+                <div className="space-y-1">
+                  {module.keyTopics.map((topic, idx) => (
+                    <div key={idx} className="text-xs text-muted-foreground">
+                      • {topic}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Next Steps */}
+              <div className="p-3 bg-muted/30 rounded-lg border border-border/30">
+                <div className="text-xs font-medium text-muted-foreground mb-2">🚀 After This Module</div>
+                <div className="space-y-1">
+                  {module.nextSteps.map((step, idx) => (
+                    <div key={idx} className="text-xs text-muted-foreground">
+                      • {step}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Completed Module Summary */}
+        {module.completed && (
+          <div className="mt-4 p-3 bg-success/5 rounded-lg border border-success/20">
+            <div className="text-xs font-medium text-success mb-1">✅ Module Completed</div>
+            <p className="text-xs text-muted-foreground">{module.outcome}</p>
           </div>
         )}
       </CardContent>

@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Sparkles, Brain, Code, PlayCircle, FileText, CheckCircle, Clock, Users, Zap } from "lucide-react";
+import { Sparkles, Brain, Code, PlayCircle, FileText, CheckCircle, Clock, Users, Zap, BookOpen } from "lucide-react";
 import { LearningModule } from "@/components/LearningModule";
 import { MCPServerHighlight } from "@/components/MCPServerHighlight";
 import { GenerationProgress } from "@/components/GenerationProgress";
@@ -25,7 +25,7 @@ const Index = () => {
     setTimeout(() => {
       setGeneratedPath(true);
       setIsGenerating(false);
-    }, 3000);
+    }, 5000);
   };
 
   const learningModules = [
@@ -34,40 +34,60 @@ const Index = () => {
       title: "Autonomous Agent Fundamentals",
       type: "concept" as const,
       duration: "25 min",
-      description: "Core concepts and principles of autonomous agents",
-      completed: false
+      description: "Core concepts and principles of autonomous agents in AI systems",
+      completed: false,
+      outcome: "Understand agent architecture, decision-making processes, and core components of autonomous systems",
+      prerequisites: ["Basic programming knowledge", "Understanding of AI concepts"],
+      nextSteps: ["Multi-Agent Communication Patterns", "Advanced agent coordination techniques"],
+      keyTopics: ["Agent Architecture", "Perception & Action", "Goal-oriented behavior", "Environment interaction"]
     },
     {
       id: 2,
       title: "Multi-Agent Communication Patterns",
       type: "case" as const,
       duration: "30 min",
-      description: "Real-world case study: Coordinating multiple agents",
-      completed: false
+      description: "Real-world case study: Coordinating multiple agents in distributed systems",
+      completed: false,
+      outcome: "Design and implement communication protocols for multi-agent coordination",
+      prerequisites: ["Autonomous Agent Fundamentals", "Network protocols knowledge"],
+      nextSteps: ["Building Your First Agent", "Advanced coordination algorithms"],
+      keyTopics: ["Message Passing", "Consensus Algorithms", "Coordination Protocols", "Fault Tolerance"]
     },
     {
       id: 3,
       title: "Building Your First Agent",
       type: "coding" as const,
       duration: "20 min",
-      description: "Hands-on coding environment with step-by-step guidance",
-      completed: false
+      description: "Hands-on coding environment with step-by-step agent implementation",
+      completed: false,
+      outcome: "Implement a functional autonomous agent with basic decision-making capabilities",
+      prerequisites: ["Multi-Agent Communication Patterns", "Python programming"],
+      nextSteps: ["Agent Architecture Deep Dive", "Advanced agent behaviors"],
+      keyTopics: ["Code Structure", "Decision Logic", "State Management", "Testing & Debugging"]
     },
     {
       id: 4,
       title: "Agent Architecture Deep Dive",
       type: "video" as const,
       duration: "15 min",
-      description: "Visual explanation of agent architectures",
-      completed: false
+      description: "Visual explanation of advanced agent architectures and design patterns",
+      completed: false,
+      outcome: "Analyze and compare different agent architectures for various use cases",
+      prerequisites: ["Building Your First Agent", "Software architecture basics"],
+      nextSteps: ["Knowledge Check", "Production deployment strategies"],
+      keyTopics: ["Layered Architecture", "Reactive vs Deliberative", "Hybrid Approaches", "Scalability Patterns"]
     },
     {
       id: 5,
-      title: "Knowledge Check",
+      title: "Knowledge Validation & Next Steps",
       type: "mcq" as const,
       duration: "10 min",
-      description: "Test your understanding with adaptive questions",
-      completed: false
+      description: "Comprehensive assessment with adaptive questions and personalized feedback",
+      completed: false,
+      outcome: "Validate understanding and receive personalized recommendations for advanced topics",
+      prerequisites: ["All previous modules completed"],
+      nextSteps: ["Advanced MCP Integration", "Production Agent Systems", "Research Frontiers"],
+      keyTopics: ["Concept Validation", "Practical Applications", "Common Pitfalls", "Advanced Pathways"]
     }
   ];
 
@@ -181,7 +201,7 @@ const Index = () => {
                       <div>
                         <CardTitle className="text-xl">Autonomous Agents Learning Path</CardTitle>
                         <CardDescription>
-                          Structured 5-module journey • ~100 minutes total
+                          Structured 5-module journey • ~100 minutes total • Professional Level
                         </CardDescription>
                       </div>
                       <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
@@ -196,10 +216,14 @@ const Index = () => {
                       <span className="text-sm text-muted-foreground">0% Complete</span>
                     </div>
                     
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-4">
                       <Badge variant="outline" className="border-learning-concept/30 text-learning-concept">
                         <FileText className="h-3 w-3 mr-1" />
-                        3 Concepts
+                        2 Concepts
+                      </Badge>
+                      <Badge variant="outline" className="border-learning-case/30 text-learning-case">
+                        <BookOpen className="h-3 w-3 mr-1" />
+                        1 Case Study
                       </Badge>
                       <Badge variant="outline" className="border-learning-coding/30 text-learning-coding">
                         <Code className="h-3 w-3 mr-1" />
@@ -213,6 +237,22 @@ const Index = () => {
                         <CheckCircle className="h-3 w-3 mr-1" />
                         1 Assessment
                       </Badge>
+                    </div>
+
+                    {/* Professional Learning Metrics */}
+                    <div className="grid grid-cols-3 gap-4 p-3 bg-muted/20 rounded-lg border border-border/30">
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-primary">100min</div>
+                        <div className="text-xs text-muted-foreground">Total Time</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-accent">95%</div>
+                        <div className="text-xs text-muted-foreground">Success Rate</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-success">Pro</div>
+                        <div className="text-xs text-muted-foreground">Level</div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
