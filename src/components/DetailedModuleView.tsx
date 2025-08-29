@@ -21,6 +21,10 @@ import {
   Zap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CoreConceptsOverview } from "./learning/CoreConceptsOverview";
+import { DeepDiveAgentFundamentals } from "./learning/DeepDiveAgentFundamentals";
+import { RealWorldApplications } from "./learning/RealWorldApplications";
+import { KnowledgeValidation } from "./learning/KnowledgeValidation";
 
 interface ModuleComponent {
   id: string;
@@ -50,6 +54,7 @@ interface DetailedModuleViewProps {
 
 export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedModuleViewProps) {
   const [currentComponent, setCurrentComponent] = useState<string | null>(null);
+  const [completedComponents, setCompletedComponents] = useState<string[]>([]);
 
   // Generate components based on module type and content
   const getModuleComponents = (): ModuleComponent[] => {
@@ -186,6 +191,50 @@ export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedMod
     }
   };
 
+  const handleComponentComplete = (componentId: string) => {
+    if (!completedComponents.includes(componentId)) {
+      setCompletedComponents([...completedComponents, componentId]);
+    }
+    setCurrentComponent(null);
+  };
+
+  // If viewing a specific component, render that component
+  if (currentComponent) {
+    switch (currentComponent) {
+      case 'intro-concept':
+        return (
+          <CoreConceptsOverview 
+            onComplete={() => handleComponentComplete('intro-concept')}
+            onBack={() => setCurrentComponent(null)}
+          />
+        );
+      case 'deep-dive':
+        return (
+          <DeepDiveAgentFundamentals 
+            onComplete={() => handleComponentComplete('deep-dive')}
+            onBack={() => setCurrentComponent(null)}
+          />
+        );
+      case 'practical-examples':
+        return (
+          <RealWorldApplications 
+            onComplete={() => handleComponentComplete('practical-examples')}
+            onBack={() => setCurrentComponent(null)}
+          />
+        );
+      case 'knowledge-check':
+        return (
+          <KnowledgeValidation 
+            onComplete={() => handleComponentComplete('knowledge-check')}
+            onBack={() => setCurrentComponent(null)}
+          />
+        );
+      default:
+        setCurrentComponent(null);
+        break;
+    }
+  }
+
   const getComponentBg = (type: string) => {
     switch (type) {
       case 'concept': return 'bg-primary/10 border-primary/20';
@@ -298,7 +347,7 @@ export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedMod
           <div className="space-y-4">
             {components.map((component, index) => {
               const Icon = getComponentIcon(component.type);
-              const isActive = currentComponent === component.id;
+              const isCompleted = completedComponents.includes(component.id);
               
               return (
                 <div key={component.id}>
@@ -306,13 +355,16 @@ export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedMod
                     className={cn(
                       "flex items-center gap-4 p-4 rounded-lg border transition-all duration-200 cursor-pointer hover:shadow-md",
                       getComponentBg(component.type),
-                      isActive && "ring-2 ring-primary/50"
+                      isCompleted && "bg-success/10 border-success/20"
                     )}
-                    onClick={() => setCurrentComponent(isActive ? null : component.id)}
                   >
                     <div className="flex items-center gap-3 flex-1">
                       <div className="p-2 bg-background/50 rounded-lg">
-                        <Icon className={cn("h-5 w-5", getComponentColor(component.type))} />
+                        {isCompleted ? (
+                          <CheckCircle className="h-5 w-5 text-success" />
+                        ) : (
+                          <Icon className={cn("h-5 w-5", getComponentColor(component.type))} />
+                        )}
                       </div>
                       
                       <div className="flex-1">
@@ -321,6 +373,11 @@ export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedMod
                           <Badge variant="outline" className="text-xs">
                             {component.duration}
                           </Badge>
+                          {isCompleted && (
+                            <Badge variant="outline" className="text-xs border-success/30 text-success">
+                              Completed
+                            </Badge>
+                          )}
                         </div>
                         <p className="text-sm text-muted-foreground">
                           {component.description}
@@ -328,8 +385,12 @@ export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedMod
                       </div>
                     </div>
                     
-                    <Button size="sm" className="bg-primary hover:bg-primary/90">
-                      {isActive ? 'Continue' : 'Start'}
+                    <Button 
+                      size="sm" 
+                      className="bg-primary hover:bg-primary/90"
+                      onClick={() => setCurrentComponent(component.id)}
+                    >
+                      {isCompleted ? 'Review' : 'Start'}
                       <ArrowRight className="h-3 w-3 ml-1" />
                     </Button>
                   </div>
