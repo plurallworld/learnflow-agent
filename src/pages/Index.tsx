@@ -217,8 +217,6 @@ const Index = () => {
             {/* Thinking Indicator */}
             <ThinkingIndicator isGenerating={isGenerating} />
             
-            {isGenerating && <GenerationProgress />}
-            
             {generatedPath && !isGenerating && (
               <div className="space-y-4">
                 {/* Path Overview */}
