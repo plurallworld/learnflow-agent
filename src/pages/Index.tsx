@@ -187,28 +187,22 @@ const Index = () => {
                 <div className="p-4 bg-primary/20 rounded-lg border border-primary/30 mb-4 inline-block">
                   <Brain className="h-12 w-12 text-primary" />
                 </div>
-                <h1 className="text-3xl font-bold mb-2 text-foreground">Create Learning Paths with AI</h1>
-                <p className="text-lg text-muted-foreground">
-                  Generate structured, personalized learning experiences powered by autonomous agents
-                </p>
+                <h1 className="text-3xl font-bold mb-2 text-foreground">Generate Learning Path</h1>
               </div>
 
               <Card className="shadow-card border-border/50 bg-gradient-card">
                 <CardHeader>
-                  <div className="flex items-center gap-2 mb-2">
+                  <CardTitle className="flex items-center gap-2">
                     <Sparkles className="h-5 w-5 text-primary" />
-                    <CardTitle>Generate Learning Path</CardTitle>
-                  </div>
-                  <CardDescription>
-                    Tell us what you want to learn and we'll create a comprehensive learning journey
-                  </CardDescription>
+                    Topic & Goals
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="topic" className="text-sm font-medium">Learning Topic</Label>
+                    <Label htmlFor="topic" className="text-sm font-medium">Topic</Label>
                     <Input
                       id="topic"
-                      placeholder="e.g., Autonomous Agents, Machine Learning, Web Development..."
+                      placeholder="Autonomous Agents, Machine Learning..."
                       value={topic}
                       onChange={(e) => setTopic(e.target.value)}
                       className="text-sm"
@@ -216,10 +210,10 @@ const Index = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="experience" className="text-sm font-medium">Your Background & Goals</Label>
+                    <Label htmlFor="experience" className="text-sm font-medium">Background & Goals</Label>
                     <Textarea
                       id="experience"
-                      placeholder="Tell us about your current experience level and what you hope to achieve..."
+                      placeholder="Experience level and learning objectives..."
                       value={experience}
                       onChange={(e) => setExperience(e.target.value)}
                       rows={3}
@@ -243,7 +237,7 @@ const Index = () => {
                       ) : (
                         <>
                           <Sparkles className="h-4 w-4 mr-2" />
-                          Generate Path
+                          Generate
                         </>
                       )}
                     </Button>
@@ -271,7 +265,7 @@ const Index = () => {
                     <div>
                       <CardTitle className="text-2xl text-foreground">Autonomous Agents Learning Path</CardTitle>
                       <CardDescription className="text-sm">
-                        Professional 5-module journey • ~100 minutes • Advanced Level
+                        5 modules • 100 min • Advanced
                       </CardDescription>
                     </div>
                     <div className="flex gap-2">
@@ -343,19 +337,18 @@ const Index = () => {
                               <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center">
                                 <span className="text-sm font-semibold text-primary">{index + 1}</span>
                               </div>
-                              <div className="flex-1">
-                                <h3 className="text-lg font-semibold mb-1">{module.title}</h3>
-                                <p className="text-sm text-muted-foreground mb-2">{module.description}</p>
-                                <div className="flex gap-2 mb-2">
-                                  <Badge variant="outline" className="text-xs">
-                                    <Clock className="h-3 w-3 mr-1" />
-                                    {module.duration}
-                                  </Badge>
-                                  <Badge variant="outline" className="text-xs capitalize">
-                                    {module.type}
-                                  </Badge>
-                                </div>
-                              </div>
+                               <div className="flex-1">
+                                 <h3 className="text-lg font-semibold mb-1">{module.title}</h3>
+                                 <div className="flex gap-2">
+                                   <Badge variant="outline" className="text-xs">
+                                     <Clock className="h-3 w-3 mr-1" />
+                                     {module.duration}
+                                   </Badge>
+                                   <Badge variant="outline" className="text-xs capitalize">
+                                     {module.type}
+                                   </Badge>
+                                 </div>
+                               </div>
                             </div>
                           </div>
                           
@@ -369,13 +362,13 @@ const Index = () => {
                               <Database className="h-3 w-3" />
                               Enhance
                             </Button>
-                            <Button
-                              size="sm"
-                              onClick={() => setSelectedModule(module)}
-                              className="bg-primary hover:bg-primary/90"
-                            >
-                              Start Module
-                            </Button>
+                             <Button
+                               size="sm"
+                               onClick={() => setSelectedModule(module)}
+                               className="bg-primary hover:bg-primary/90"
+                             >
+                               Start
+                             </Button>
                           </div>
                         </div>
                       </CardContent>

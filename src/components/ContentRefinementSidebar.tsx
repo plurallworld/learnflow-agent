@@ -70,12 +70,12 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Settings className="h-4 w-4 text-primary" />
-            <CardTitle className="text-sm">Refine & Publish</CardTitle>
+            <CardTitle className="text-sm">Refine</CardTitle>
           </div>
           <Button variant="ghost" size="sm" onClick={onClose}>×</Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          Customize and publish your learning path
+          Customize and publish
         </p>
       </CardHeader>
 
@@ -84,7 +84,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
         <div className="space-y-3">
           <Label className="text-xs font-medium flex items-center gap-2">
             <Target className="h-3 w-3" />
-            Path Details
+            Details
           </Label>
           <div className="space-y-2">
             <Input
@@ -94,14 +94,14 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
               className="h-8 text-xs"
             />
             <Textarea
-              placeholder="Brief description of what learners will achieve..."
+              placeholder="Brief description..."
               value={pathDescription}
               onChange={(e) => setPathDescription(e.target.value)}
               rows={2}
               className="text-xs resize-none"
             />
             <Input
-              placeholder="Target audience (e.g., Software Engineers, Students)..."
+              placeholder="Target audience..."
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
               className="h-8 text-xs"
@@ -115,7 +115,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
         <div className="space-y-4">
           <Label className="text-xs font-medium flex items-center gap-2">
             <Palette className="h-3 w-3" />
-            Learning Experience
+            Settings
           </Label>
           
           {/* Difficulty Level */}
@@ -179,14 +179,13 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
         <div className="space-y-3">
           <Label className="text-xs font-medium flex items-center gap-2">
             <Users className="h-3 w-3" />
-            Learning Components
+            Components
           </Label>
           
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium">Include Assessments</p>
-                <p className="text-xs text-muted-foreground">MCQs and knowledge checks</p>
+                <p className="text-xs font-medium">Assessments</p>
               </div>
               <Switch
                 checked={includeAssessments}
@@ -196,8 +195,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
             
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium">Practical Exercises</p>
-                <p className="text-xs text-muted-foreground">Hands-on coding and projects</p>
+                <p className="text-xs font-medium">Practical</p>
               </div>
               <Switch
                 checked={includePractical}
@@ -207,8 +205,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
             
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium">Adaptive Learning</p>
-                <p className="text-xs text-muted-foreground">AI-powered personalization</p>
+                <p className="text-xs font-medium">Adaptive</p>
               </div>
               <Switch
                 checked={adaptiveLearning}
@@ -224,7 +221,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
         <div className="space-y-3">
           <Label className="text-xs font-medium flex items-center gap-2">
             <Globe className="h-3 w-3" />
-            Preview & Publish
+            Publish
           </Label>
           
           <div className="space-y-2">
@@ -235,7 +232,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
               className="w-full flex items-center gap-2"
             >
               <Eye className="h-3 w-3" />
-              {isPreviewMode ? 'Exit Preview' : 'Preview Mode'}
+              {isPreviewMode ? 'Exit' : 'Preview'}
             </Button>
             
             <Button
@@ -251,7 +248,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
               ) : (
                 <>
                   <Share className="h-4 w-4 mr-2" />
-                  Publish Learning Path
+                  Publish
                 </>
               )}
             </Button>
@@ -275,7 +272,7 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
             className="w-full flex items-center gap-2"
           >
             <Lock className="h-3 w-3" />
-            Private Share Link
+            Share Link
           </Button>
         </div>
 
@@ -288,10 +285,10 @@ export function ContentRefinementSidebar({ learningPath, onClose }: ContentRefin
             className="w-full flex items-center gap-2 border-primary/30 text-primary hover:bg-primary/5"
           >
             <Zap className="h-3 w-3" />
-            AI Optimize Path
+            Optimize
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            Let AI suggest improvements based on learning science
+            AI suggestions
           </p>
         </div>
       </CardContent>

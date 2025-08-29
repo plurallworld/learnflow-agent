@@ -171,17 +171,17 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Database className="h-4 w-4 text-primary" />
-            <CardTitle className="text-sm">Enhance Module</CardTitle>
+            <CardTitle className="text-sm">Enhance</CardTitle>
           </div>
           <Button variant="ghost" size="sm" onClick={onClose}>×</Button>
         </div>
         {selectedModule && (
           <div>
             <p className="text-xs text-muted-foreground">
-              Adding knowledge to: <span className="font-medium">{selectedModule.title}</span>
+              {selectedModule?.title}
             </p>
             <Badge variant="outline" className="text-xs mt-1">
-              {knowledgeSources.length} sources added
+              {knowledgeSources.length} sources
             </Badge>
           </div>
         )}
@@ -192,7 +192,7 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
         <div className="space-y-3">
           <Label className="text-xs font-medium flex items-center gap-2">
             <Upload className="h-3 w-3" />
-            Upload PDFs
+            PDFs
           </Label>
           <div className="relative">
             <input
@@ -205,7 +205,7 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
             <div className="border-2 border-dashed border-border/50 rounded-lg p-4 text-center hover:border-primary/30 transition-colors">
               <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
               <p className="text-xs text-muted-foreground">
-                Drop PDFs here or click to browse
+                Drop files or click to browse
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
         <div className="space-y-3">
           <Label className="text-xs font-medium flex items-center gap-2">
             <Youtube className="h-3 w-3" />
-            YouTube Videos
+            YouTube
           </Label>
           <div className="flex gap-2">
             <Input
@@ -243,7 +243,7 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
         <div className="space-y-3">
           <Label className="text-xs font-medium flex items-center gap-2">
             <Link className="h-3 w-3" />
-            Web Articles
+            Web Links
           </Label>
           <div className="flex gap-2">
             <Input
@@ -269,10 +269,10 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
         <div className="space-y-3">
           <Label className="text-xs font-medium flex items-center gap-2">
             <BookOpen className="h-3 w-3" />
-            Custom Knowledge
+            Text
           </Label>
           <Textarea
-            placeholder="Add custom text, notes, or additional context..."
+            placeholder="Add text, notes, or context..."
             value={customText}
             onChange={(e) => setCustomText(e.target.value)}
             rows={3}
@@ -293,7 +293,7 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
           <>
             <Separator />
             <div className="space-y-3">
-              <Label className="text-xs font-medium">Knowledge Sources</Label>
+              <Label className="text-xs font-medium">Sources</Label>
               <div className="space-y-2 max-h-40 overflow-y-auto">
                 {knowledgeSources.map((source) => {
                   const Icon = getSourceIcon(source.type);
@@ -338,12 +338,12 @@ export function ModuleEnhancementSidebar({ selectedModule, onClose }: ModuleEnha
             ) : (
               <>
                 <Zap className="h-4 w-4 mr-2" />
-                Enhance with AI
+                Enhance
               </>
             )}
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            AI will integrate your knowledge sources to create richer learning content
+            AI integration with knowledge sources
           </p>
         </div>
       </CardContent>
