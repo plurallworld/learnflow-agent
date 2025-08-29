@@ -28,6 +28,7 @@ interface LearningModuleProps {
     keyTopics: string[];
   };
   moduleNumber: number;
+  onModuleClick: (module: any) => void;
 }
 
 const moduleTypeConfig = {
@@ -73,7 +74,7 @@ const moduleTypeConfig = {
   }
 };
 
-export function LearningModule({ module, moduleNumber }: LearningModuleProps) {
+export function LearningModule({ module, moduleNumber, onModuleClick }: LearningModuleProps) {
   const config = moduleTypeConfig[module.type];
   const Icon = config.icon;
   const isLocked = moduleNumber > 1 && !module.completed;
@@ -154,6 +155,7 @@ export function LearningModule({ module, moduleNumber }: LearningModuleProps) {
             variant={module.completed ? "outline" : "default"}
             size="sm"
             disabled={isLocked}
+            onClick={() => !isLocked && onModuleClick(module)}
             className={cn(
               !module.completed && canStart && "bg-gradient-primary hover:opacity-90",
               module.completed && "border-success/20 text-success hover:bg-success/10"
@@ -175,9 +177,9 @@ export function LearningModule({ module, moduleNumber }: LearningModuleProps) {
         {/* Comprehensive Module Information */}
         {canStart && !module.completed && (
           <div className="mt-4 space-y-3">
-            {/* Learning Outcome */}
+            {/* What You'll Be Able To Do */}
             <div className="p-3 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border border-primary/10">
-              <div className="text-xs font-medium text-primary mb-1">🎯 Learning Outcome</div>
+              <div className="text-xs font-medium text-primary mb-1">🎯 What You'll Be Able To Do</div>
               <p className="text-xs text-foreground">{module.outcome}</p>
             </div>
 

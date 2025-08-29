@@ -13,12 +13,14 @@ import { GenerationProgress } from "@/components/GenerationProgress";
 import { LearningPathSettings, type PathSettings } from "@/components/LearningPathSettings";
 import { CompactAgentExecution } from "@/components/CompactAgentExecution";
 import { ThinkingIndicator } from "@/components/ThinkingIndicator";
+import { DetailedModuleView } from "@/components/DetailedModuleView";
 
 const Index = () => {
   const [topic, setTopic] = useState("");
   const [experience, setExperience] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPath, setGeneratedPath] = useState(false);
+  const [selectedModule, setSelectedModule] = useState<any>(null);
   const [pathSettings, setPathSettings] = useState<PathSettings>({
     includeMCQ: true,
     includeCaseStudies: true,
@@ -115,10 +117,10 @@ const Index = () => {
               </div>
               <div>
                 <h1 className="text-lg font-semibold text-foreground">
-                  LearningPath AI
+                  DeepCoach
                 </h1>
                 <p className="text-xs text-muted-foreground">
-                  Autonomous Learning Platform
+                  AI-Powered Learning Platform
                 </p>
               </div>
             </div>
@@ -293,15 +295,24 @@ const Index = () => {
                 </Card>
 
                 {/* Learning Modules */}
-                <div className="space-y-3">
-                  {learningModules.map((module, index) => (
-                    <LearningModule 
-                      key={module.id} 
-                      module={module} 
-                      moduleNumber={index + 1}
-                    />
-                  ))}
-                </div>
+                {!selectedModule ? (
+                  <div className="space-y-3">
+                    {learningModules.map((module, index) => (
+                      <LearningModule 
+                        key={module.id} 
+                        module={module} 
+                        moduleNumber={index + 1}
+                        onModuleClick={setSelectedModule}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <DetailedModuleView
+                    module={selectedModule}
+                    moduleNumber={learningModules.findIndex(m => m.id === selectedModule.id) + 1}
+                    onBack={() => setSelectedModule(null)}
+                  />
+                )}
               </div>
             )}
 
