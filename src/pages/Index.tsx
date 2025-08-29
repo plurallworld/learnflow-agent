@@ -24,6 +24,7 @@ const Index = () => {
   const [selectedModule, setSelectedModule] = useState<any>(null);
   const [isInLearningMode, setIsInLearningMode] = useState(false);
   const [completedModules, setCompletedModules] = useState<number[]>([]);
+  const [isGeneratePathCollapsed, setIsGeneratePathCollapsed] = useState(false);
   const [pathSettings, setPathSettings] = useState<PathSettings>({
     includeMCQ: true,
     includeCaseStudies: true,
@@ -238,11 +239,28 @@ const Index = () => {
             )}>
               <CardHeader className={cn("transition-all duration-300", isInLearningMode ? "pb-2" : "pb-4")}>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className={cn(
+                    "flex items-center gap-2 transition-all duration-300",
+                    isInLearningMode && "cursor-pointer hover:text-primary"
+                  )} onClick={isInLearningMode ? () => setIsGeneratePathCollapsed(!isGeneratePathCollapsed) : undefined}>
                     <Sparkles className={cn("text-primary transition-all duration-300", isInLearningMode ? "h-3 w-3" : "h-4 w-4")} />
                     <CardTitle className={cn("transition-all duration-300", isInLearningMode ? "text-xs" : "text-sm")}>Generate Path</CardTitle>
                     {isInLearningMode && (
-                      <ChevronUp className="h-3 w-3 text-muted-foreground" />
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-4 w-4 p-0 hover:bg-transparent"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsGeneratePathCollapsed(!isGeneratePathCollapsed);
+                        }}
+                      >
+                        {isGeneratePathCollapsed ? (
+                          <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                        ) : (
+                          <ChevronUp className="h-3 w-3 text-muted-foreground" />
+                        )}
+                      </Button>
                     )}
                   </div>
                   {!isInLearningMode && <LearningPathSettings onSettingsChange={setPathSettings} />}
@@ -314,11 +332,55 @@ const Index = () => {
                       </div>
                     </div>
                   </>
+                ) : !isGeneratePathCollapsed ? (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="topic" className="text-xs font-medium">Topic</Label>
+                      <Input
+                        id="topic"
+                        placeholder="Autonomous Agents, ML..."
+                        value={topic}
+                        onChange={(e) => setTopic(e.target.value)}
+                        className="h-8 text-xs bg-input border-border/50 focus:border-primary/50"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="experience" className="text-xs font-medium">Background</Label>
+                      <Textarea
+                        id="experience"
+                        placeholder="Your experience and goals..."
+                        value={experience}
+                        onChange={(e) => setExperience(e.target.value)}
+                        rows={2}
+                        className="text-xs bg-input border-border/50 focus:border-primary/50 resize-none"
+                      />
+                    </div>
+
+                    <Button 
+                      onClick={handleGenerate}
+                      disabled={!topic.trim() || isGenerating}
+                      className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground"
+                    >
+                      {isGenerating ? (
+                        <>
+                          <Zap className="h-3 w-3 mr-1 animate-pulse" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="h-3 w-3 mr-1" />
+                          Generate New Path
+                        </>
+                      )}
+                    </Button>
+
+                    {/* Compact Agent Execution - Under Generate Button */}
+                    <CompactAgentExecution isGenerating={isGenerating} />
+                  </>
                 ) : (
-                  <div className="text-center">
-                    <div className="text-xs text-muted-foreground mb-1">Current Path</div>
-                    <div className="text-sm font-medium">{topic || "Autonomous Agents"}</div>
-                    <div className="text-xs text-success mt-1">{Math.round(progressPercentage)}% Complete</div>
+                  <div className="text-center py-2">
+                    <div className="text-xs text-muted-foreground">Click to expand generator</div>
                   </div>
                 )}
               </CardContent>
