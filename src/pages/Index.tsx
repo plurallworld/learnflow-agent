@@ -55,56 +55,51 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-border/20">
-        <div className="flex items-center space-x-6">
-          <div className="flex items-center space-x-2">
-            <Brain className="h-6 w-6 text-primary" />
-            <span className="text-xl font-semibold">DeepCoach</span>
+      <nav className="flex items-center justify-between px-8 py-5 border-b border-border/10 bg-background/95 backdrop-blur-sm">
+        <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-3">
+            <Brain className="h-7 w-7 text-primary" />
+            <span className="text-xl font-bold tracking-tight">DeepCoach</span>
           </div>
-          <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-            <span>Community</span>
-            <span>Pricing</span>
-            <span>Enterprise</span>
-            <span>Learn</span>
-            <span>Launched</span>
+          <div className="hidden md:flex items-center space-x-8 text-sm text-muted-foreground font-medium">
+            <span className="hover:text-foreground transition-colors cursor-pointer">Community</span>
+            <span className="hover:text-foreground transition-colors cursor-pointer">Pricing</span>
+            <span className="hover:text-foreground transition-colors cursor-pointer">Enterprise</span>
+            <span className="hover:text-foreground transition-colors cursor-pointer">Learn</span>
           </div>
         </div>
-        <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm">
-            <Trash2 className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm">
+        <div className="flex items-center space-x-3">
+          <Button variant="ghost" size="sm" className="h-9 w-9 p-0">
             <Search className="h-4 w-4" />
           </Button>
-          <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
+          <div className="w-9 h-9 rounded-full bg-gradient-primary text-white flex items-center justify-center text-sm font-semibold shadow-md">
             A
           </div>
-          <span className="text-sm">Ankur's DeepCoach</span>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <div className="flex flex-col items-center justify-center px-6 py-24 bg-gradient-hero text-white">
-        <div className="text-center space-y-8 max-w-4xl">
-          <div className="space-y-4">
-            <h1 className="text-6xl font-bold">
+      <div className="flex flex-col items-center justify-center px-8 py-20 bg-gradient-hero text-white min-h-[75vh]">
+        <div className="text-center space-y-12 max-w-5xl">
+          <div className="space-y-6">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]">
               Build something{" "}
-              <Heart className="inline h-12 w-12 text-orange-400 fill-current" />{" "}
+              <Heart className="inline h-12 w-12 md:h-16 md:w-16 text-pink-400 fill-current" />{" "}
               DeepCoach
             </h1>
-            <p className="text-xl opacity-80 max-w-md mx-auto">
-              Create learning paths by chatting with AI
+            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
+              Create personalized learning paths with AI
             </p>
           </div>
 
           <div className="w-full max-w-2xl">
-            <div className="relative bg-black/20 backdrop-blur-sm rounded-xl p-1">
-              <div className="flex items-center bg-black/40 rounded-lg px-4 py-4">
+            <div className="group">
+              <div className="flex items-center bg-white/10 backdrop-blur-md rounded-xl px-5 py-4 border border-white/20 shadow-2xl transition-all duration-300 group-hover:bg-white/15 group-hover:border-white/30 group-hover:shadow-elevated">
                 <Input
-                  placeholder="Ask DeepCoach to create a learning path..."
+                  placeholder="Describe what you want to learn..."
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="flex-1 border-0 bg-transparent text-white placeholder:text-white/60 focus-visible:ring-0 text-lg"
+                  className="flex-1 border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-base h-auto py-2"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       generatePath();
@@ -115,7 +110,7 @@ const Index = () => {
                   onClick={generatePath}
                   disabled={isGenerating || !prompt.trim()}
                   size="sm"
-                  className="ml-3 bg-white/20 hover:bg-white/30 border-0"
+                  className="ml-3 bg-white text-gray-900 hover:bg-white/90 h-10 w-10 p-0 rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50"
                 >
                   <ArrowUp className="h-4 w-4" />
                 </Button>
@@ -126,50 +121,55 @@ const Index = () => {
       </div>
 
       {/* Workspace */}
-      <div className="bg-background px-6 py-8">
+      <div className="bg-background px-8 py-12">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold">Ankur's DeepCoach Workspace</h2>
-            <span className="text-sm text-muted-foreground">View All</span>
+          <div className="flex items-center justify-between mb-10">
+            <h2 className="text-3xl font-bold tracking-tight">Workspace</h2>
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+              View all
+            </Button>
           </div>
           
-          <div className="flex items-center gap-4 mb-6">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className="flex items-center gap-4 mb-8">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search projects..."
-                className="pl-10 w-64 bg-muted/50"
+                placeholder="Search learning paths..."
+                className="pl-12 h-11 bg-muted/30 border-border/50 focus:border-ring"
               />
             </div>
-            <Button variant="outline" size="sm">
-              Last edited
-            </Button>
-            <Button variant="outline" size="sm">
-              Newest first
-            </Button>
-            <Button variant="outline" size="sm">
-              All creators
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" className="h-11">
+                Recent
+              </Button>
+              <Button variant="outline" size="sm" className="h-11">
+                Popular
+              </Button>
+            </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {existingPaths.map((path) => (
-              <Card key={path.id} className="p-6 hover:shadow-md transition-shadow cursor-pointer">
-                <div className="space-y-4">
-                  <div className="aspect-video bg-gradient-primary rounded-lg flex items-center justify-center">
-                    <Brain className="h-12 w-12 text-white/80" />
+              <Card key={path.id} className="group overflow-hidden border-0 shadow-card hover:shadow-elevated transition-all duration-300 cursor-pointer bg-gradient-card">
+                <div className="p-6 space-y-4">
+                  <div className="aspect-[16/10] bg-gradient-primary rounded-lg flex items-center justify-center shadow-learning group-hover:scale-105 transition-transform duration-300">
+                    <Brain className="h-12 w-12 text-white/90" />
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-lg">{path.title}</h3>
-                    <p className="text-muted-foreground text-sm line-clamp-2">
+                  <div className="space-y-3">
+                    <h3 className="font-semibold text-lg leading-tight group-hover:text-primary transition-colors">
+                      {path.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
                       {path.description}
                     </p>
                   </div>
                   
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>{path.modules} modules</span>
-                    <span>{path.created}</span>
+                  <div className="flex items-center justify-between pt-2 text-xs text-muted-foreground border-t border-border/30">
+                    <Badge variant="secondary" className="font-medium">
+                      {path.modules} modules
+                    </Badge>
+                    <span className="font-medium">{path.created}</span>
                   </div>
                 </div>
               </Card>
