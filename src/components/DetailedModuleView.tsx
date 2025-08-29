@@ -50,10 +50,9 @@ interface DetailedModuleViewProps {
   };
   moduleNumber: number;
   onBack: () => void;
-  onModuleComplete?: () => void;
 }
 
-export function DetailedModuleView({ module, moduleNumber, onBack, onModuleComplete }: DetailedModuleViewProps) {
+export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedModuleViewProps) {
   const [currentComponent, setCurrentComponent] = useState<string | null>(null);
   const [completedComponents, setCompletedComponents] = useState<string[]>([]);
 
@@ -194,13 +193,7 @@ export function DetailedModuleView({ module, moduleNumber, onBack, onModuleCompl
 
   const handleComponentComplete = (componentId: string) => {
     if (!completedComponents.includes(componentId)) {
-      const newCompleted = [...completedComponents, componentId];
-      setCompletedComponents(newCompleted);
-      
-      // Check if all components are completed
-      if (newCompleted.length === components.length && onModuleComplete) {
-        onModuleComplete();
-      }
+      setCompletedComponents([...completedComponents, componentId]);
     }
     setCurrentComponent(null);
   };
@@ -284,20 +277,6 @@ export function DetailedModuleView({ module, moduleNumber, onBack, onModuleCompl
         </CardHeader>
         
         <CardContent>
-          {/* Module Progress */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Module Progress</span>
-              <span className="text-xs text-muted-foreground">
-                {completedComponents.length}/{components.length} components completed
-              </span>
-            </div>
-            <Progress 
-              value={(completedComponents.length / components.length) * 100} 
-              className="h-2" 
-            />
-          </div>
-
           {/* What You'll Be Able To Do */}
           <div className="p-4 bg-gradient-to-r from-primary/10 to-accent/5 rounded-lg border border-primary/20 mb-6">
             <div className="flex items-center gap-2 mb-3">

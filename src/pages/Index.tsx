@@ -7,14 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Sparkles, Brain, Code, PlayCircle, FileText, CheckCircle, Clock, Users, Zap, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import { Sparkles, Brain, Code, PlayCircle, FileText, CheckCircle, Clock, Users, Zap, BookOpen } from "lucide-react";
 import { LearningModule } from "@/components/LearningModule";
 import { GenerationProgress } from "@/components/GenerationProgress";
 import { LearningPathSettings, type PathSettings } from "@/components/LearningPathSettings";
 import { CompactAgentExecution } from "@/components/CompactAgentExecution";
 import { ThinkingIndicator } from "@/components/ThinkingIndicator";
 import { DetailedModuleView } from "@/components/DetailedModuleView";
-import { cn } from "@/lib/utils";
 
 const Index = () => {
   const [topic, setTopic] = useState("");
@@ -22,9 +21,6 @@ const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPath, setGeneratedPath] = useState(false);
   const [selectedModule, setSelectedModule] = useState<any>(null);
-  const [isInLearningMode, setIsInLearningMode] = useState(false);
-  const [completedModules, setCompletedModules] = useState<number[]>([]);
-  const [isGeneratePathCollapsed, setIsGeneratePathCollapsed] = useState(false);
   const [pathSettings, setPathSettings] = useState<PathSettings>({
     includeMCQ: true,
     includeCaseStudies: true,
@@ -44,33 +40,6 @@ const Index = () => {
       setGeneratedPath(true);
       setIsGenerating(false);
     }, 5000);
-  };
-
-  const handleModuleClick = (module: any) => {
-    setSelectedModule(module);
-    setIsInLearningMode(true);
-  };
-
-  const handleBackToPath = () => {
-    setSelectedModule(null);
-    setIsInLearningMode(false);
-  };
-
-  const handleModuleComplete = (moduleId: number) => {
-    if (!completedModules.includes(moduleId)) {
-      setCompletedModules([...completedModules, moduleId]);
-    }
-  };
-
-  const getModuleIcon = (type: string) => {
-    switch (type) {
-      case 'concept': return FileText;
-      case 'case': return BookOpen;
-      case 'coding': return Code;
-      case 'video': return PlayCircle;
-      case 'mcq': return CheckCircle;
-      default: return FileText;
-    }
   };
 
   const learningModules = [
@@ -136,33 +105,23 @@ const Index = () => {
     }
   ];
 
-  const progressPercentage = (completedModules.length / learningModules.length) * 100;
-
   return (
     <div className="min-h-screen bg-background">
       {/* Professional Header */}
-      <header className={cn(
-        "border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300",
-        isInLearningMode ? "py-2" : "py-3"
-      )}>
-        <div className="container mx-auto px-6">
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className={cn(
-                "bg-primary/20 rounded-lg border border-primary/30 transition-all duration-300",
-                isInLearningMode ? "p-1.5" : "p-2"
-              )}>
-                <Brain className={cn("text-primary transition-all duration-300", isInLearningMode ? "h-4 w-4" : "h-5 w-5")} />
+              <div className="p-2 bg-primary/20 rounded-lg border border-primary/30">
+                <Brain className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h1 className={cn("font-semibold text-foreground transition-all duration-300", isInLearningMode ? "text-base" : "text-lg")}>
+                <h1 className="text-lg font-semibold text-foreground">
                   DeepCoach
                 </h1>
-                {!isInLearningMode && (
-                  <p className="text-xs text-muted-foreground">
-                    AI-Powered Learning Platform
-                  </p>
-                )}
+                <p className="text-xs text-muted-foreground">
+                  AI-Powered Learning Platform
+                </p>
               </div>
             </div>
             
@@ -173,225 +132,90 @@ const Index = () => {
               </Badge>
             </div>
           </div>
-          
-          {/* Module Navigation Header - Only show when in learning mode */}
-          {isInLearningMode && generatedPath && (
-            <div className="mt-3 pt-3 border-t border-border/30">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-foreground">Autonomous Agents Learning Path</span>
-                  <Badge variant="outline" className="text-xs">
-                    {completedModules.length}/{learningModules.length} Complete
-                  </Badge>
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {Math.round(progressPercentage)}% Progress
-                </div>
-              </div>
-              
-              <div className="mb-3">
-                <Progress value={progressPercentage} className="h-2" />
-              </div>
-              
-              <div className="flex flex-wrap gap-2">
-                {learningModules.map((module, index) => {
-                  const Icon = getModuleIcon(module.type);
-                  const isCompleted = completedModules.includes(module.id);
-                  const isCurrent = selectedModule?.id === module.id;
-                  
-                  return (
-                    <Button
-                      key={module.id}
-                      variant={isCurrent ? "default" : isCompleted ? "secondary" : "outline"}
-                      size="sm"
-                      className="text-xs flex items-center gap-1.5"
-                      onClick={() => handleModuleClick(module)}
-                    >
-                      {isCompleted ? (
-                        <CheckCircle className="h-3 w-3" />
-                      ) : (
-                        <Icon className="h-3 w-3" />
-                      )}
-                      <span className="hidden sm:inline">Module {index + 1}</span>
-                      <span className="sm:hidden">{index + 1}</span>
-                    </Button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
         </div>
       </header>
 
       <div className="container mx-auto px-6 py-6">
-        <div className={cn(
-          "grid gap-6 transition-all duration-300",
-          isInLearningMode ? "grid-cols-1 lg:grid-cols-6" : "grid-cols-1 lg:grid-cols-4"
-        )}>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar Generator Panel */}
-          <div className={cn(
-            "transition-all duration-300",
-            isInLearningMode ? "lg:col-span-1" : "lg:col-span-1"
-          )}>
-            <Card className={cn(
-              "shadow-card border-border/50 bg-gradient-card transition-all duration-300",
-              isInLearningMode && "scale-95"
-            )}>
-              <CardHeader className={cn("transition-all duration-300", isInLearningMode ? "pb-2" : "pb-4")}>
+          <div className="lg:col-span-1">
+            <Card className="shadow-card border-border/50 bg-gradient-card">
+              <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <div className={cn(
-                    "flex items-center gap-2 transition-all duration-300",
-                    isInLearningMode && "cursor-pointer hover:text-primary"
-                  )} onClick={isInLearningMode ? () => setIsGeneratePathCollapsed(!isGeneratePathCollapsed) : undefined}>
-                    <Sparkles className={cn("text-primary transition-all duration-300", isInLearningMode ? "h-3 w-3" : "h-4 w-4")} />
-                    <CardTitle className={cn("transition-all duration-300", isInLearningMode ? "text-xs" : "text-sm")}>Generate Path</CardTitle>
-                    {isInLearningMode && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-4 w-4 p-0 hover:bg-transparent"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsGeneratePathCollapsed(!isGeneratePathCollapsed);
-                        }}
-                      >
-                        {isGeneratePathCollapsed ? (
-                          <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                        ) : (
-                          <ChevronUp className="h-3 w-3 text-muted-foreground" />
-                        )}
-                      </Button>
-                    )}
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                    <CardTitle className="text-sm">Generate Path</CardTitle>
                   </div>
-                  {!isInLearningMode && <LearningPathSettings onSettingsChange={setPathSettings} />}
+                  <LearningPathSettings onSettingsChange={setPathSettings} />
                 </div>
-                {!isInLearningMode && (
-                  <CardDescription className="text-xs">
-                    Create structured learning with AI agents
-                  </CardDescription>
-                )}
+                <CardDescription className="text-xs">
+                  Create structured learning with AI agents
+                </CardDescription>
               </CardHeader>
-              <CardContent className={cn("transition-all duration-300", isInLearningMode ? "space-y-2" : "space-y-3")}>
-                {!isInLearningMode ? (
-                  <>
-                    <div className="space-y-2">
-                      <Label htmlFor="topic" className="text-xs font-medium">Topic</Label>
-                      <Input
-                        id="topic"
-                        placeholder="Autonomous Agents, ML..."
-                        value={topic}
-                        onChange={(e) => setTopic(e.target.value)}
-                        className="h-8 text-xs bg-input border-border/50 focus:border-primary/50"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="experience" className="text-xs font-medium">Background</Label>
-                      <Textarea
-                        id="experience"
-                        placeholder="Your experience and goals..."
-                        value={experience}
-                        onChange={(e) => setExperience(e.target.value)}
-                        rows={2}
-                        className="text-xs bg-input border-border/50 focus:border-primary/50 resize-none"
-                      />
-                    </div>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  <Label htmlFor="topic" className="text-xs font-medium">Topic</Label>
+                  <Input
+                    id="topic"
+                    placeholder="Autonomous Agents, ML..."
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    className="h-8 text-xs bg-input border-border/50 focus:border-primary/50"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="experience" className="text-xs font-medium">Background</Label>
+                  <Textarea
+                    id="experience"
+                    placeholder="Your experience and goals..."
+                    value={experience}
+                    onChange={(e) => setExperience(e.target.value)}
+                    rows={2}
+                    className="text-xs bg-input border-border/50 focus:border-primary/50 resize-none"
+                  />
+                </div>
 
-                    <Button 
-                      onClick={handleGenerate}
-                      disabled={!topic.trim() || isGenerating}
-                      className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground"
-                    >
-                      {isGenerating ? (
-                        <>
-                          <Zap className="h-3 w-3 mr-1 animate-pulse" />
-                          Generating...
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="h-3 w-3 mr-1" />
-                          Generate
-                        </>
-                      )}
-                    </Button>
+                <Button 
+                  onClick={handleGenerate}
+                  disabled={!topic.trim() || isGenerating}
+                  className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Zap className="h-3 w-3 mr-1 animate-pulse" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-3 w-3 mr-1" />
+                      Generate
+                    </>
+                  )}
+                </Button>
 
-                    {/* Compact Agent Execution - Under Generate Button */}
-                    <CompactAgentExecution isGenerating={isGenerating} />
+                {/* Compact Agent Execution - Under Generate Button */}
+                <CompactAgentExecution isGenerating={isGenerating} />
 
-                    {/* Stats */}
-                    <div className="pt-3 border-t border-border/30">
-                      <div className="grid grid-cols-2 gap-2 text-center">
-                        <div className="p-2 bg-muted/30 rounded border border-border/30">
-                          <div className="text-sm font-semibold text-primary">15-30</div>
-                          <div className="text-xs text-muted-foreground">min/module</div>
-                        </div>
-                        <div className="p-2 bg-muted/30 rounded border border-border/30">
-                          <div className="text-sm font-semibold text-accent">AI</div>
-                          <div className="text-xs text-muted-foreground">Powered</div>
-                        </div>
-                      </div>
+                {/* Stats */}
+                <div className="pt-3 border-t border-border/30">
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div className="p-2 bg-muted/30 rounded border border-border/30">
+                      <div className="text-sm font-semibold text-primary">15-30</div>
+                      <div className="text-xs text-muted-foreground">min/module</div>
                     </div>
-                  </>
-                ) : !isGeneratePathCollapsed ? (
-                  <>
-                    <div className="space-y-2">
-                      <Label htmlFor="topic" className="text-xs font-medium">Topic</Label>
-                      <Input
-                        id="topic"
-                        placeholder="Autonomous Agents, ML..."
-                        value={topic}
-                        onChange={(e) => setTopic(e.target.value)}
-                        className="h-8 text-xs bg-input border-border/50 focus:border-primary/50"
-                      />
+                    <div className="p-2 bg-muted/30 rounded border border-border/30">
+                      <div className="text-sm font-semibold text-accent">AI</div>
+                      <div className="text-xs text-muted-foreground">Powered</div>
                     </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="experience" className="text-xs font-medium">Background</Label>
-                      <Textarea
-                        id="experience"
-                        placeholder="Your experience and goals..."
-                        value={experience}
-                        onChange={(e) => setExperience(e.target.value)}
-                        rows={2}
-                        className="text-xs bg-input border-border/50 focus:border-primary/50 resize-none"
-                      />
-                    </div>
-
-                    <Button 
-                      onClick={handleGenerate}
-                      disabled={!topic.trim() || isGenerating}
-                      className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground"
-                    >
-                      {isGenerating ? (
-                        <>
-                          <Zap className="h-3 w-3 mr-1 animate-pulse" />
-                          Generating...
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="h-3 w-3 mr-1" />
-                          Generate New Path
-                        </>
-                      )}
-                    </Button>
-
-                    {/* Compact Agent Execution - Under Generate Button */}
-                    <CompactAgentExecution isGenerating={isGenerating} />
-                  </>
-                ) : (
-                  <div className="text-center py-2">
-                    <div className="text-xs text-muted-foreground">Click to expand generator</div>
                   </div>
-                )}
+                </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Main Content Area */}
-          <div className={cn(
-            "transition-all duration-300",
-            isInLearningMode ? "lg:col-span-5" : "lg:col-span-3"
-          )}>
+          <div className="lg:col-span-3">
             {/* Thinking Indicator */}
             <ThinkingIndicator isGenerating={isGenerating} />
             
@@ -476,18 +300,17 @@ const Index = () => {
                     {learningModules.map((module, index) => (
                       <LearningModule 
                         key={module.id} 
-                        module={{...module, completed: completedModules.includes(module.id)}} 
+                        module={module} 
                         moduleNumber={index + 1}
-                        onModuleClick={handleModuleClick}
+                        onModuleClick={setSelectedModule}
                       />
                     ))}
                   </div>
                 ) : (
                   <DetailedModuleView
-                    module={{...selectedModule, completed: completedModules.includes(selectedModule.id)}}
+                    module={selectedModule}
                     moduleNumber={learningModules.findIndex(m => m.id === selectedModule.id) + 1}
-                    onBack={handleBackToPath}
-                    onModuleComplete={() => handleModuleComplete(selectedModule.id)}
+                    onBack={() => setSelectedModule(null)}
                   />
                 )}
               </div>
