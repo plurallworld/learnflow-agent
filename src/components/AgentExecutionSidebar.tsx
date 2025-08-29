@@ -103,7 +103,7 @@ export function AgentExecutionSidebar({ isGenerating }: AgentExecutionSidebarPro
   useEffect(() => {
     if (!isGenerating) {
       setCurrentStep(0);
-      setSteps(agentSteps.map(step => ({ ...step, status: 'pending' })));
+      setSteps(agentSteps.map(step => ({ ...step, status: 'pending' as const })));
       setExpandedStep(null);
       return;
     }
@@ -112,24 +112,27 @@ export function AgentExecutionSidebar({ isGenerating }: AgentExecutionSidebarPro
       setSteps(prevSteps => {
         const newSteps = [...prevSteps];
         
-        // Mark current step as executing
-        if (currentStep < newSteps.length) {
+        // Mark current step as executing - with bounds check
+        if (currentStep >= 0 && currentStep < newSteps.length && newSteps[currentStep]) {
           newSteps[currentStep].status = 'executing';
           setExpandedStep(newSteps[currentStep].id);
         }
         
-        // Mark previous steps as completed
-        for (let i = 0; i < currentStep; i++) {
-          newSteps[i].status = 'completed';
+        // Mark previous steps as completed - with bounds check
+        for (let i = 0; i < currentStep && i < newSteps.length; i++) {
+          if (newSteps[i]) {
+            newSteps[i].status = 'completed';
+          }
         }
         
         return newSteps;
       });
       
+      // Move to next step with bounds check
       if (currentStep < agentSteps.length - 1) {
         const stepDuration = 800 + Math.random() * 400; // 800-1200ms per step
         setTimeout(() => {
-          setCurrentStep(prev => prev + 1);
+          setCurrentStep(prev => Math.min(prev + 1, agentSteps.length - 1));
         }, stepDuration);
       }
     }, 100);
