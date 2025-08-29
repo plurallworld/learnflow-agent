@@ -89,7 +89,8 @@ export default {
 				'gradient-learning': 'var(--gradient-learning)',
 				'gradient-mcp': 'var(--gradient-mcp)',
 				'gradient-subtle': 'var(--gradient-subtle)',
-				'gradient-card': 'var(--gradient-card)'
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-hero': 'var(--gradient-hero)'
 			},
 			boxShadow: {
 				'learning': 'var(--shadow-learning)',
