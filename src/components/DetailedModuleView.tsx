@@ -50,9 +50,10 @@ interface DetailedModuleViewProps {
   };
   moduleNumber: number;
   onBack: () => void;
+  onModuleComplete?: () => void;
 }
 
-export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedModuleViewProps) {
+export function DetailedModuleView({ module, moduleNumber, onBack, onModuleComplete }: DetailedModuleViewProps) {
   const [currentComponent, setCurrentComponent] = useState<string | null>(null);
   const [completedComponents, setCompletedComponents] = useState<string[]>([]);
 
@@ -193,7 +194,13 @@ export function DetailedModuleView({ module, moduleNumber, onBack }: DetailedMod
 
   const handleComponentComplete = (componentId: string) => {
     if (!completedComponents.includes(componentId)) {
-      setCompletedComponents([...completedComponents, componentId]);
+      const newCompleted = [...completedComponents, componentId];
+      setCompletedComponents(newCompleted);
+      
+      // Check if all components are completed
+      if (newCompleted.length === components.length && onModuleComplete) {
+        onModuleComplete();
+      }
     }
     setCurrentComponent(null);
   };
