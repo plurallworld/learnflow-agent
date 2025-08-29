@@ -6,14 +6,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Sparkles, Brain, Code, PlayCircle, FileText, CheckCircle, Clock, Users, Zap, BookOpen } from "lucide-react";
+import { Sparkles, Brain, Code, PlayCircle, FileText, CheckCircle, Clock, Users, Zap, BookOpen, Settings, Database, Edit } from "lucide-react";
 import { LearningModule } from "@/components/LearningModule";
 import { GenerationProgress } from "@/components/GenerationProgress";
 import { LearningPathSettings, type PathSettings } from "@/components/LearningPathSettings";
 import { CompactAgentExecution } from "@/components/CompactAgentExecution";
 import { ThinkingIndicator } from "@/components/ThinkingIndicator";
 import { DetailedModuleView } from "@/components/DetailedModuleView";
+import { ModuleEnhancementSidebar } from "@/components/ModuleEnhancementSidebar";
+import { ContentRefinementSidebar } from "@/components/ContentRefinementSidebar";
 
 const Index = () => {
   const [topic, setTopic] = useState("");
@@ -21,6 +22,9 @@ const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPath, setGeneratedPath] = useState(false);
   const [selectedModule, setSelectedModule] = useState<any>(null);
+  const [enhancementSidebarOpen, setEnhancementSidebarOpen] = useState(false);
+  const [refinementSidebarOpen, setRefinementSidebarOpen] = useState(false);
+  const [selectedModuleForEnhancement, setSelectedModuleForEnhancement] = useState<any>(null);
   const [pathSettings, setPathSettings] = useState<PathSettings>({
     includeMCQ: true,
     includeCaseStudies: true,
@@ -35,11 +39,26 @@ const Index = () => {
     if (!topic.trim()) return;
     
     setIsGenerating(true);
+    // Reset states for new generation
+    setGeneratedPath(false);
+    setSelectedModule(null);
+    setEnhancementSidebarOpen(false);
+    setRefinementSidebarOpen(false);
+    
     // Simulate generation process
     setTimeout(() => {
       setGeneratedPath(true);
       setIsGenerating(false);
     }, 5000);
+  };
+
+  const handleModuleEnhance = (module: any) => {
+    setSelectedModuleForEnhancement(module);
+    setEnhancementSidebarOpen(true);
+  };
+
+  const handleOpenRefinement = () => {
+    setRefinementSidebarOpen(true);
   };
 
   const learningModules = [
@@ -106,233 +125,284 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Professional Header */}
-      <header className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/20 rounded-lg border border-primary/30">
-                <Brain className="h-5 w-5 text-primary" />
+    <div className="min-h-screen bg-background flex">
+      {/* Left Enhancement Sidebar */}
+      {enhancementSidebarOpen && (
+        <div className="fixed left-0 top-0 h-full z-40">
+          <ModuleEnhancementSidebar
+            selectedModule={selectedModuleForEnhancement}
+            onClose={() => setEnhancementSidebarOpen(false)}
+          />
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className={`flex-1 transition-all duration-300 ${enhancementSidebarOpen ? 'ml-80' : ''} ${refinementSidebarOpen ? 'mr-80' : ''}`}>
+        {/* Professional Header */}
+        <header className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-30">
+          <div className="container mx-auto px-6 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary/20 rounded-lg border border-primary/30">
+                  <Brain className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-lg font-semibold text-foreground">
+                    DeepCoach
+                  </h1>
+                  <p className="text-xs text-muted-foreground">
+                    AI-Powered Learning Platform
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-lg font-semibold text-foreground">
-                  DeepCoach
-                </h1>
-                <p className="text-xs text-muted-foreground">
-                  AI-Powered Learning Platform
+              
+              <div className="flex items-center gap-3">
+                {generatedPath && (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleOpenRefinement}
+                      className="h-8 text-xs"
+                    >
+                      <Settings className="h-3 w-3 mr-1" />
+                      Refine
+                    </Button>
+                  </>
+                )}
+                <Badge variant="outline" className="border-accent/30 text-accent text-xs">
+                  <div className="h-1.5 w-1.5 bg-accent rounded-full mr-1 animate-pulse"></div>
+                  MCP Online
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="container mx-auto px-6 py-6">
+          {/* Generate New Path */}
+          {!generatedPath && !isGenerating && (
+            <div className="max-w-2xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="p-4 bg-primary/20 rounded-lg border border-primary/30 mb-4 inline-block">
+                  <Brain className="h-12 w-12 text-primary" />
+                </div>
+                <h1 className="text-3xl font-bold mb-2 text-foreground">Create Learning Paths with AI</h1>
+                <p className="text-lg text-muted-foreground">
+                  Generate structured, personalized learning experiences powered by autonomous agents
                 </p>
               </div>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <Badge variant="outline" className="border-accent/30 text-accent text-xs">
-                <div className="h-1.5 w-1.5 bg-accent rounded-full mr-1 animate-pulse"></div>
-                MCP Online
-              </Badge>
-            </div>
-          </div>
-        </div>
-      </header>
 
-      <div className="container mx-auto px-6 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar Generator Panel */}
-          <div className="lg:col-span-1">
-            <Card className="shadow-card border-border/50 bg-gradient-card">
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary" />
-                    <CardTitle className="text-sm">Generate Path</CardTitle>
-                  </div>
-                  <LearningPathSettings onSettingsChange={setPathSettings} />
-                </div>
-                <CardDescription className="text-xs">
-                  Create structured learning with AI agents
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="space-y-2">
-                  <Label htmlFor="topic" className="text-xs font-medium">Topic</Label>
-                  <Input
-                    id="topic"
-                    placeholder="Autonomous Agents, ML..."
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    className="h-8 text-xs bg-input border-border/50 focus:border-primary/50"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="experience" className="text-xs font-medium">Background</Label>
-                  <Textarea
-                    id="experience"
-                    placeholder="Your experience and goals..."
-                    value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
-                    rows={2}
-                    className="text-xs bg-input border-border/50 focus:border-primary/50 resize-none"
-                  />
-                </div>
-
-                <Button 
-                  onClick={handleGenerate}
-                  disabled={!topic.trim() || isGenerating}
-                  className="w-full h-8 text-xs bg-primary hover:bg-primary/90 text-primary-foreground"
-                >
-                  {isGenerating ? (
-                    <>
-                      <Zap className="h-3 w-3 mr-1 animate-pulse" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="h-3 w-3 mr-1" />
-                      Generate
-                    </>
-                  )}
-                </Button>
-
-                {/* Compact Agent Execution - Under Generate Button */}
-                <CompactAgentExecution isGenerating={isGenerating} />
-
-                {/* Stats */}
-                <div className="pt-3 border-t border-border/30">
-                  <div className="grid grid-cols-2 gap-2 text-center">
-                    <div className="p-2 bg-muted/30 rounded border border-border/30">
-                      <div className="text-sm font-semibold text-primary">15-30</div>
-                      <div className="text-xs text-muted-foreground">min/module</div>
-                    </div>
-                    <div className="p-2 bg-muted/30 rounded border border-border/30">
-                      <div className="text-sm font-semibold text-accent">AI</div>
-                      <div className="text-xs text-muted-foreground">Powered</div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Main Content Area */}
-          <div className="lg:col-span-3">
-            {/* Thinking Indicator */}
-            <ThinkingIndicator isGenerating={isGenerating} />
-            
-            {generatedPath && !isGenerating && (
-              <div className="space-y-4">
-                {/* Path Overview */}
-                <Card className="shadow-card border-border/50 bg-gradient-card">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <CardTitle className="text-lg text-foreground">Autonomous Agents Learning Path</CardTitle>
-                        <CardDescription className="text-xs">
-                          Professional 5-module journey • ~100 minutes • Advanced Level
-                        </CardDescription>
-                      </div>
-                      <Badge className="bg-success/20 text-success border-success/30 text-xs">
-                        <CheckCircle className="h-3 w-3 mr-1" />
-                        Generated
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-4 mb-4">
-                      <Progress value={0} className="flex-1 h-2" />
-                      <span className="text-xs text-muted-foreground">0% Complete</span>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {pathSettings.includeConcepts && (
-                        <Badge variant="outline" className="border-primary/30 text-primary text-xs">
-                          <FileText className="h-3 w-3 mr-1" />
-                          2 Concepts
-                        </Badge>
-                      )}
-                      {pathSettings.includeCaseStudies && (
-                        <Badge variant="outline" className="border-accent/30 text-accent text-xs">
-                          <BookOpen className="h-3 w-3 mr-1" />
-                          1 Case Study
-                        </Badge>
-                      )}
-                      {pathSettings.includeCodingExercises && (
-                        <Badge variant="outline" className="border-learning-secondary/30 text-learning-secondary text-xs">
-                          <Code className="h-3 w-3 mr-1" />
-                          1 Coding Lab
-                        </Badge>
-                      )}
-                      {pathSettings.includeVideos && (
-                        <Badge variant="outline" className="border-warning/30 text-warning text-xs">
-                          <PlayCircle className="h-3 w-3 mr-1" />
-                          1 Video
-                        </Badge>
-                      )}
-                      {pathSettings.includeMCQ && (
-                        <Badge variant="outline" className="border-success/30 text-success text-xs">
-                          <CheckCircle className="h-3 w-3 mr-1" />
-                          1 Assessment
-                        </Badge>
-                      )}
-                    </div>
-
-                    {/* Professional Metrics */}
-                    <div className="grid grid-cols-3 gap-3 p-3 bg-muted/20 rounded border border-border/30">
-                      <div className="text-center">
-                        <div className="text-sm font-bold text-primary">100min</div>
-                        <div className="text-xs text-muted-foreground">Duration</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-sm font-bold text-accent">95%</div>
-                        <div className="text-xs text-muted-foreground">Success</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-sm font-bold text-success">Pro</div>
-                        <div className="text-xs text-muted-foreground">Level</div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Learning Modules */}
-                {!selectedModule ? (
-                  <div className="space-y-3">
-                    {learningModules.map((module, index) => (
-                      <LearningModule 
-                        key={module.id} 
-                        module={module} 
-                        moduleNumber={index + 1}
-                        onModuleClick={setSelectedModule}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <DetailedModuleView
-                    module={selectedModule}
-                    moduleNumber={learningModules.findIndex(m => m.id === selectedModule.id) + 1}
-                    onBack={() => setSelectedModule(null)}
-                  />
-                )}
-              </div>
-            )}
-
-            {!generatedPath && !isGenerating && (
               <Card className="shadow-card border-border/50 bg-gradient-card">
-                <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="p-4 bg-primary/20 rounded-lg border border-primary/30 mb-4">
-                    <Brain className="h-8 w-8 text-primary" />
+                <CardHeader>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    <CardTitle>Generate Learning Path</CardTitle>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 text-foreground">Professional Learning Awaits</h3>
-                  <p className="text-sm text-muted-foreground max-w-md">
-                    Generate a structured learning path powered by autonomous agents 
-                    and MCP server technology for professional skill development.
-                  </p>
+                  <CardDescription>
+                    Tell us what you want to learn and we'll create a comprehensive learning journey
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="topic" className="text-sm font-medium">Learning Topic</Label>
+                    <Input
+                      id="topic"
+                      placeholder="e.g., Autonomous Agents, Machine Learning, Web Development..."
+                      value={topic}
+                      onChange={(e) => setTopic(e.target.value)}
+                      className="text-sm"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="experience" className="text-sm font-medium">Your Background & Goals</Label>
+                    <Textarea
+                      id="experience"
+                      placeholder="Tell us about your current experience level and what you hope to achieve..."
+                      value={experience}
+                      onChange={(e) => setExperience(e.target.value)}
+                      rows={3}
+                      className="text-sm"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4">
+                    <LearningPathSettings onSettingsChange={setPathSettings} />
+                    <Button 
+                      onClick={handleGenerate}
+                      disabled={!topic.trim() || isGenerating}
+                      size="lg"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                    >
+                      {isGenerating ? (
+                        <>
+                          <Zap className="h-4 w-4 mr-2 animate-pulse" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="h-4 w-4 mr-2" />
+                          Generate Path
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* Generation Progress */}
+          {isGenerating && (
+            <div className="max-w-2xl mx-auto">
+              <ThinkingIndicator isGenerating={isGenerating} />
+              <CompactAgentExecution isGenerating={isGenerating} />
+            </div>
+          )}
+
+          {/* Generated Learning Path */}
+          {generatedPath && !isGenerating && (
+            <div className="space-y-6">
+              {/* Path Overview Header */}
+              <Card className="shadow-card border-border/50 bg-gradient-card">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-2xl text-foreground">Autonomous Agents Learning Path</CardTitle>
+                      <CardDescription className="text-sm">
+                        Professional 5-module journey • ~100 minutes • Advanced Level
+                      </CardDescription>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setGeneratedPath(false);
+                          setTopic("");
+                          setExperience("");
+                        }}
+                      >
+                        New Path
+                      </Button>
+                    </div>
+                  </div>
+                </CardHeader>
+                
+                <CardContent>
+                  <div className="flex items-center gap-4 mb-4">
+                    <Progress value={0} className="flex-1 h-3" />
+                    <span className="text-sm text-muted-foreground">0% Complete</span>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {pathSettings.includeConcepts && (
+                      <Badge variant="outline" className="border-primary/30 text-primary">
+                        <FileText className="h-4 w-4 mr-1" />
+                        2 Concepts
+                      </Badge>
+                    )}
+                    {pathSettings.includeCaseStudies && (
+                      <Badge variant="outline" className="border-accent/30 text-accent">
+                        <BookOpen className="h-4 w-4 mr-1" />
+                        1 Case Study
+                      </Badge>
+                    )}
+                    {pathSettings.includeCodingExercises && (
+                      <Badge variant="outline" className="border-learning-secondary/30 text-learning-secondary">
+                        <Code className="h-4 w-4 mr-1" />
+                        1 Coding Lab
+                      </Badge>
+                    )}
+                    {pathSettings.includeVideos && (
+                      <Badge variant="outline" className="border-warning/30 text-warning">
+                        <PlayCircle className="h-4 w-4 mr-1" />
+                        1 Video
+                      </Badge>
+                    )}
+                    {pathSettings.includeMCQ && (
+                      <Badge variant="outline" className="border-success/30 text-success">
+                        <CheckCircle className="h-4 w-4 mr-1" />
+                        1 Assessment
+                      </Badge>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Learning Modules Grid */}
+              {!selectedModule ? (
+                <div className="grid gap-4">
+                  {learningModules.map((module, index) => (
+                    <Card key={module.id} className="shadow-card border-border/50 bg-gradient-card hover:shadow-lg transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-start gap-4 flex-1">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center">
+                                <span className="text-sm font-semibold text-primary">{index + 1}</span>
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="text-lg font-semibold mb-1">{module.title}</h3>
+                                <p className="text-sm text-muted-foreground mb-2">{module.description}</p>
+                                <div className="flex gap-2 mb-2">
+                                  <Badge variant="outline" className="text-xs">
+                                    <Clock className="h-3 w-3 mr-1" />
+                                    {module.duration}
+                                  </Badge>
+                                  <Badge variant="outline" className="text-xs capitalize">
+                                    {module.type}
+                                  </Badge>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleModuleEnhance(module)}
+                              className="flex items-center gap-2"
+                            >
+                              <Database className="h-3 w-3" />
+                              Enhance
+                            </Button>
+                            <Button
+                              size="sm"
+                              onClick={() => setSelectedModule(module)}
+                              className="bg-primary hover:bg-primary/90"
+                            >
+                              Start Module
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <DetailedModuleView
+                  module={selectedModule}
+                  moduleNumber={learningModules.findIndex(m => m.id === selectedModule.id) + 1}
+                  onBack={() => setSelectedModule(null)}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Right Refinement Sidebar */}
+      {refinementSidebarOpen && (
+        <div className="fixed right-0 top-0 h-full z-40">
+          <ContentRefinementSidebar
+            learningPath={generatedPath ? { title: "Autonomous Agents Learning Path", modules: learningModules } : null}
+            onClose={() => setRefinementSidebarOpen(false)}
+          />
+        </div>
+      )}
     </div>
   );
 };
