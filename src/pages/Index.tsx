@@ -12,6 +12,7 @@ import { LearningModule } from "@/components/LearningModule";
 import { GenerationProgress } from "@/components/GenerationProgress";
 import { LearningPathSettings, type PathSettings } from "@/components/LearningPathSettings";
 import { CompactAgentExecution } from "@/components/CompactAgentExecution";
+import { ThinkingIndicator } from "@/components/ThinkingIndicator";
 
 const Index = () => {
   const [topic, setTopic] = useState("");
@@ -213,6 +214,9 @@ const Index = () => {
 
           {/* Main Content Area */}
           <div className="lg:col-span-3">
+            {/* Thinking Indicator */}
+            <ThinkingIndicator isGenerating={isGenerating} />
+            
             {isGenerating && <GenerationProgress />}
             
             {generatedPath && !isGenerating && (
