@@ -22,28 +22,38 @@ export function ThinkingIndicator({ isGenerating }: ThinkingIndicatorProps) {
   const actions: Action[] = [
     {
       type: 'create',
-      file: 'LearningModule_Fundamentals.tsx',
-      description: 'Creating autonomous agent fundamentals module'
+      file: 'AutonomousAgentFundamentals.tsx',
+      description: 'Interactive concept module with visual explanations'
     },
     {
       type: 'create', 
-      file: 'CaseStudy_MultiAgent.tsx',
-      description: 'Generating multi-agent communication case study'
+      file: 'MultiAgentCommunicationCase.tsx',
+      description: 'Real-world case study with step-by-step analysis'
     },
     {
       type: 'create',
-      file: 'CodingLab_FirstAgent.tsx', 
-      description: 'Building hands-on coding environment'
+      file: 'AgentCodingEnvironment.tsx', 
+      description: 'Browser-based coding lab with live preview'
+    },
+    {
+      type: 'create',
+      file: 'AgentArchitectureVideo.tsx',
+      description: 'Interactive video player with timestamps'
+    },
+    {
+      type: 'create',
+      file: 'KnowledgeValidationQuiz.tsx',
+      description: 'Adaptive MCQ system with instant feedback'
     },
     {
       type: 'edit',
-      file: 'VideoContent_Architecture.tsx',
-      description: 'Customizing video content for user level'
+      file: 'LearningPathProgress.tsx',
+      description: 'Updating progress tracking for new modules'
     },
     {
       type: 'create',
-      file: 'Assessment_Knowledge.tsx',
-      description: 'Designing adaptive assessment questions'
+      file: 'PersonalizedRecommendations.tsx',
+      description: 'AI-powered next steps based on performance'
     }
   ];
 
@@ -138,11 +148,12 @@ export function ThinkingIndicator({ isGenerating }: ThinkingIndicatorProps) {
         {/* Action Description */}
         {!isThinking && (
           <div className="mb-4">
-            <p className="text-sm font-medium mb-2">
-              I'll create a structured learning path with personalized modules for autonomous agents.
-            </p>
+            <div className="flex items-center gap-2 mb-2">
+              <FileText className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">Generating Learning Components</span>
+            </div>
             <p className="text-sm text-muted-foreground">
-              Generating interactive content tailored to your experience level and learning goals.
+              Creating interactive modules, coding environments, and assessments tailored to your learning path.
             </p>
           </div>
         )}
@@ -158,33 +169,39 @@ export function ThinkingIndicator({ isGenerating }: ThinkingIndicatorProps) {
         {/* Completed Actions */}
         {completedActions.length > 0 && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs font-medium text-muted-foreground">Generated Files:</span>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-sm font-medium">Generated Components:</span>
               <Badge variant="outline" className="text-xs border-success/30 text-success">
-                {completedActions.length} modules
+                {completedActions.length} / {actions.length}
               </Badge>
             </div>
             
             {completedActions.map((action, index) => {
               const Icon = getActionIcon(action.type);
               return (
-                <div key={index} className="flex items-center gap-2 p-2 bg-muted/20 rounded border border-border/30">
-                  <Icon className={`h-3 w-3 ${getActionColor(action.type)}`} />
+                <div key={index} className="flex items-center gap-3 p-3 bg-muted/20 rounded-lg border border-border/30">
+                  <div className={`p-2 rounded ${
+                    action.type === 'create' ? 'bg-success/20' :
+                    action.type === 'edit' ? 'bg-warning/20' :
+                    'bg-destructive/20'
+                  }`}>
+                    <Icon className={`h-4 w-4 ${getActionColor(action.type)}`} />
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-medium truncate">{action.file}</span>
                       <Badge 
                         variant="outline" 
-                        className={`text-xs px-1.5 py-0 capitalize ${
+                        className={`text-xs px-2 py-1 capitalize ${
                           action.type === 'create' ? 'border-success/30 text-success' :
                           action.type === 'edit' ? 'border-warning/30 text-warning' :
                           'border-destructive/30 text-destructive'
                         }`}
                       >
-                        {action.type}
+                        {action.type === 'create' ? 'New' : action.type}
                       </Badge>
-                      <span className="text-xs font-medium truncate">{action.file}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground truncate">{action.description}</p>
+                    <p className="text-xs text-muted-foreground">{action.description}</p>
                   </div>
                 </div>
               );
