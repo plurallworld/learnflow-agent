@@ -40,12 +40,9 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 20% 95%;
 
-    /* Learning Platform Specific */
-    --learning-concept: 217 91% 60%;
-    --learning-coding: 142 86% 55%;
-    --learning-mcq: 271 91% 65%;
-    --learning-video: 25 95% 53%;
-    --learning-case: 262 83% 58%;
+    /* Simplified Learning Colors */
+    --learning-primary: 217 91% 60%;
+    --learning-secondary: 142 86% 55%;
 
     /* MCP Server Colors */
     --mcp-primary: 300 89% 64%;
@@ -109,11 +106,8 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 20% 95%;
 
-    --learning-concept: 217 91% 60%;
-    --learning-coding: 142 86% 55%;
-    --learning-mcq: 271 91% 65%;
-    --learning-video: 25 95% 53%;
-    --learning-case: 262 83% 58%;
+    --learning-primary: 217 91% 60%;
+    --learning-secondary: 142 86% 55%;
 
     --mcp-primary: 300 89% 64%;
     --mcp-secondary: 300 20% 15%;

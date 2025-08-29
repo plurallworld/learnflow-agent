@@ -10,12 +10,22 @@ import { Sparkles, Brain, Code, PlayCircle, FileText, CheckCircle, Clock, Users,
 import { LearningModule } from "@/components/LearningModule";
 import { MCPServerHighlight } from "@/components/MCPServerHighlight";
 import { GenerationProgress } from "@/components/GenerationProgress";
+import { LearningPathSettings, type PathSettings } from "@/components/LearningPathSettings";
 
 const Index = () => {
   const [topic, setTopic] = useState("");
   const [experience, setExperience] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedPath, setGeneratedPath] = useState(false);
+  const [pathSettings, setPathSettings] = useState<PathSettings>({
+    includeMCQ: true,
+    includeCaseStudies: true,
+    includeCodingExercises: true,
+    includeSimulations: false,
+    includeVideos: true,
+    includeConcepts: true,
+    industryContext: ""
+  });
 
   const handleGenerate = async () => {
     if (!topic.trim()) return;
@@ -127,9 +137,12 @@ const Index = () => {
           <div className="lg:col-span-1">
             <Card className="shadow-card border-border/50 bg-gradient-card">
               <CardHeader className="pb-4">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-primary" />
-                  <CardTitle className="text-sm">Generate Path</CardTitle>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                    <CardTitle className="text-sm">Generate Path</CardTitle>
+                  </div>
+                  <LearningPathSettings onSettingsChange={setPathSettings} />
                 </div>
                 <CardDescription className="text-xs">
                   Create structured learning with AI agents
@@ -193,8 +206,8 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* MCP Server Status */}
-            <MCPServerHighlight />
+            {/* MCP Server Status - Only show when generating or has generated */}
+            {(isGenerating || generatedPath) && <MCPServerHighlight isGenerating={isGenerating} />}
           </div>
 
           {/* Main Content Area */}
@@ -226,26 +239,36 @@ const Index = () => {
                     </div>
                     
                     <div className="flex flex-wrap gap-2 mb-4">
-                      <Badge variant="outline" className="border-learning-concept/30 text-learning-concept text-xs">
-                        <FileText className="h-3 w-3 mr-1" />
-                        2 Concepts
-                      </Badge>
-                      <Badge variant="outline" className="border-learning-case/30 text-learning-case text-xs">
-                        <BookOpen className="h-3 w-3 mr-1" />
-                        1 Case Study
-                      </Badge>
-                      <Badge variant="outline" className="border-learning-coding/30 text-learning-coding text-xs">
-                        <Code className="h-3 w-3 mr-1" />
-                        1 Coding Lab
-                      </Badge>
-                      <Badge variant="outline" className="border-learning-video/30 text-learning-video text-xs">
-                        <PlayCircle className="h-3 w-3 mr-1" />
-                        1 Video
-                      </Badge>
-                      <Badge variant="outline" className="border-learning-mcq/30 text-learning-mcq text-xs">
-                        <CheckCircle className="h-3 w-3 mr-1" />
-                        1 Assessment
-                      </Badge>
+                      {pathSettings.includeConcepts && (
+                        <Badge variant="outline" className="border-primary/30 text-primary text-xs">
+                          <FileText className="h-3 w-3 mr-1" />
+                          2 Concepts
+                        </Badge>
+                      )}
+                      {pathSettings.includeCaseStudies && (
+                        <Badge variant="outline" className="border-accent/30 text-accent text-xs">
+                          <BookOpen className="h-3 w-3 mr-1" />
+                          1 Case Study
+                        </Badge>
+                      )}
+                      {pathSettings.includeCodingExercises && (
+                        <Badge variant="outline" className="border-learning-secondary/30 text-learning-secondary text-xs">
+                          <Code className="h-3 w-3 mr-1" />
+                          1 Coding Lab
+                        </Badge>
+                      )}
+                      {pathSettings.includeVideos && (
+                        <Badge variant="outline" className="border-warning/30 text-warning text-xs">
+                          <PlayCircle className="h-3 w-3 mr-1" />
+                          1 Video
+                        </Badge>
+                      )}
+                      {pathSettings.includeMCQ && (
+                        <Badge variant="outline" className="border-success/30 text-success text-xs">
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          1 Assessment
+                        </Badge>
+                      )}
                     </div>
 
                     {/* Professional Metrics */}

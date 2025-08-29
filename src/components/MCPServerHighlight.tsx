@@ -12,7 +12,11 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function MCPServerHighlight() {
+interface MCPServerHighlightProps {
+  isGenerating?: boolean;
+}
+
+export function MCPServerHighlight({ isGenerating = false }: MCPServerHighlightProps) {
   const mcpComponents = [
     {
       name: "Agent Orchestrator",
@@ -24,7 +28,7 @@ export function MCPServerHighlight() {
       name: "Content Generator", 
       icon: Brain,
       description: "Creates personalized learning modules",
-      status: "generating"
+      status: isGenerating ? "generating" : "active"
     },
     {
       name: "Progress Tracker",
