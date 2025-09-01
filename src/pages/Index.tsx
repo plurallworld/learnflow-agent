@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Heart, Search, ArrowUp, Trash2, Upload, Settings } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Brain, Heart, Search, ArrowUp, Trash2, Upload, Settings, Link, FileText, Youtube } from "lucide-react";
 
 interface LearningPath {
   id: string;
@@ -16,6 +20,13 @@ interface LearningPath {
 const Index = () => {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [webUrl, setWebUrl] = useState("");
+  const [learningGoal, setLearningGoal] = useState("");
+  const [currentLevel, setCurrentLevel] = useState("");
+  const [timeCommitment, setTimeCommitment] = useState("");
   
   const existingPaths: LearningPath[] = [
     {
@@ -107,20 +118,140 @@ const Index = () => {
                   }}
                 />
                 <div className="flex items-center gap-2 ml-3">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
-                  >
-                    <Upload className="h-3.5 w-3.5" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
-                  >
-                    <Settings className="h-3.5 w-3.5" />
-                  </Button>
+                  <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+                      >
+                        <Upload className="h-3.5 w-3.5" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Add Learning Materials</DialogTitle>
+                      </DialogHeader>
+                      <Tabs defaultValue="youtube" className="w-full">
+                        <TabsList className="grid w-full grid-cols-3">
+                          <TabsTrigger value="youtube" className="flex items-center gap-2">
+                            <Youtube className="h-4 w-4" />
+                            YouTube
+                          </TabsTrigger>
+                          <TabsTrigger value="web" className="flex items-center gap-2">
+                            <Link className="h-4 w-4" />
+                            Web Link
+                          </TabsTrigger>
+                          <TabsTrigger value="upload" className="flex items-center gap-2">
+                            <FileText className="h-4 w-4" />
+                            Upload
+                          </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="youtube" className="space-y-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="youtube-url">YouTube URL</Label>
+                            <Input
+                              id="youtube-url"
+                              placeholder="https://youtube.com/watch?v=..."
+                              value={youtubeUrl}
+                              onChange={(e) => setYoutubeUrl(e.target.value)}
+                            />
+                          </div>
+                          <Button className="w-full">Add YouTube Video</Button>
+                        </TabsContent>
+                        <TabsContent value="web" className="space-y-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="web-url">Website URL</Label>
+                            <Input
+                              id="web-url"
+                              placeholder="https://example.com/article"
+                              value={webUrl}
+                              onChange={(e) => setWebUrl(e.target.value)}
+                            />
+                          </div>
+                          <Button className="w-full">Add Web Resource</Button>
+                        </TabsContent>
+                        <TabsContent value="upload" className="space-y-4">
+                          <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+                            <Upload className="h-8 w-8 mx-auto mb-4 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground mb-2">
+                              Drag and drop files here or click to browse
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              PDF, DOC, TXT files supported
+                            </p>
+                          </div>
+                          <Button className="w-full">Upload Files</Button>
+                        </TabsContent>
+                      </Tabs>
+                    </DialogContent>
+                  </Dialog>
+                  
+                  <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+                      >
+                        <Settings className="h-3.5 w-3.5" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-lg">
+                      <DialogHeader>
+                        <DialogTitle>Structured Prompt Builder</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="learning-goal">Learning Goal</Label>
+                          <Textarea
+                            id="learning-goal"
+                            placeholder="What specific skill or knowledge do you want to gain?"
+                            value={learningGoal}
+                            onChange={(e) => setLearningGoal(e.target.value)}
+                            rows={3}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="current-level">Current Level</Label>
+                          <Input
+                            id="current-level"
+                            placeholder="Beginner, Intermediate, or Advanced"
+                            value={currentLevel}
+                            onChange={(e) => setCurrentLevel(e.target.value)}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="time-commitment">Time Commitment</Label>
+                          <Input
+                            id="time-commitment"
+                            placeholder="e.g., 2 hours per week, 30 minutes daily"
+                            value={timeCommitment}
+                            onChange={(e) => setTimeCommitment(e.target.value)}
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => setSettingsDialogOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button 
+                            className="flex-1"
+                            onClick={() => {
+                              const structuredPrompt = `Create a learning path for: ${learningGoal}\nCurrent level: ${currentLevel}\nTime available: ${timeCommitment}`;
+                              setPrompt(structuredPrompt);
+                              setSettingsDialogOpen(false);
+                            }}
+                          >
+                            Apply to Prompt
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                   <Button
                     onClick={generatePath}
                     disabled={isGenerating || !prompt.trim()}
