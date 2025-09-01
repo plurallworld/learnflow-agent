@@ -66,13 +66,13 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-border/10 bg-background/95 backdrop-blur-sm">
-        <div className="flex items-center space-x-8">
+      <nav className="flex items-center justify-between px-4 sm:px-8 py-5 border-b border-border/10 bg-background/95 backdrop-blur-sm">
+        <div className="flex items-center space-x-4 sm:space-x-8">
           <div className="flex items-center space-x-3">
-            <Brain className="h-7 w-7 text-primary" />
-            <span className="text-xl font-bold tracking-tight">DeepCoach</span>
+            <Brain className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
+            <span className="text-lg sm:text-xl font-bold tracking-tight">DeepCoach</span>
           </div>
-          <div className="hidden md:flex items-center space-x-8 text-sm text-muted-foreground font-medium">
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm text-muted-foreground font-medium">
             <span className="hover:text-foreground transition-colors cursor-pointer">Community</span>
             <span className="hover:text-foreground transition-colors cursor-pointer">Pricing</span>
             <span className="hover:text-foreground transition-colors cursor-pointer">Enterprise</span>
@@ -80,180 +80,185 @@ const Index = () => {
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          <Button variant="ghost" size="sm" className="h-9 w-9 p-0">
-            <Search className="h-4 w-4" />
+          <Button variant="ghost" size="sm" className="h-8 w-8 sm:h-9 sm:w-9 p-0">
+            <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </Button>
-          <div className="w-9 h-9 rounded-full bg-gradient-primary text-white flex items-center justify-center text-sm font-semibold shadow-md">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-primary text-white flex items-center justify-center text-sm font-semibold shadow-md">
             A
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <div className="flex flex-col items-center justify-center px-8 py-20 bg-gradient-hero text-white min-h-[75vh]">
-        <div className="text-center space-y-12 max-w-5xl">
-          <div className="space-y-6">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]">
+      <div className="flex flex-col items-center justify-center px-4 sm:px-8 py-12 sm:py-20 bg-gradient-hero text-white min-h-[75vh]">
+        <div className="text-center space-y-8 sm:space-y-12 max-w-5xl w-full">
+          <div className="space-y-4 sm:space-y-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] whitespace-nowrap">
               Learn something{" "}
-              <Heart className="inline h-12 w-12 md:h-16 md:w-16 text-pink-400 fill-current" />{" "}
+              <Heart className="inline h-8 w-8 sm:h-10 w-10 md:h-12 w-12 lg:h-14 w-14 xl:h-16 w-16 text-pink-400 fill-current" />{" "}
               DeepCoach
             </h1>
           </div>
 
-          <div className="w-full max-w-2xl">
+          <div className="w-full max-w-3xl mx-auto">
             <div className="group">
-              <div className="flex items-center bg-white/10 backdrop-blur-md rounded-xl px-5 py-4 border border-white/20 shadow-2xl transition-all duration-300 group-hover:bg-white/15 group-hover:border-white/30 group-hover:shadow-elevated">
-                <Input
-                  placeholder="Describe what you want to learn..."
+              <div className="flex items-start bg-white/10 backdrop-blur-md rounded-xl px-4 sm:px-6 py-4 sm:py-6 border border-white/20 shadow-2xl transition-all duration-300 group-hover:bg-white/15 group-hover:border-white/30 group-hover:shadow-elevated">
+                <Textarea
+                  placeholder="Describe what you want to learn in detail..."
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="flex-1 border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-base h-auto py-2"
+                  className="flex-1 border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-base resize-none min-h-[60px] sm:min-h-[80px]"
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
                       generatePath();
                     }
                   }}
+                  rows={3}
                 />
-                <div className="flex items-center gap-2 ml-3">
-                  <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
-                      >
-                        <Upload className="h-3.5 w-3.5" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
-                      <DialogHeader>
-                        <DialogTitle>Add Learning Materials</DialogTitle>
-                      </DialogHeader>
-                      <Tabs defaultValue="youtube" className="w-full">
-                        <TabsList className="grid w-full grid-cols-3">
-                          <TabsTrigger value="youtube" className="flex items-center gap-2">
-                            <Youtube className="h-4 w-4" />
-                            YouTube
-                          </TabsTrigger>
-                          <TabsTrigger value="web" className="flex items-center gap-2">
-                            <Link className="h-4 w-4" />
-                            Web Link
-                          </TabsTrigger>
-                          <TabsTrigger value="upload" className="flex items-center gap-2">
-                            <FileText className="h-4 w-4" />
-                            Upload
-                          </TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="youtube" className="space-y-4">
+                <div className="flex flex-col sm:flex-row items-center gap-2 ml-3 mt-1">
+                  <div className="flex items-center gap-2">
+                    <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+                        >
+                          <Upload className="h-3.5 w-3.5" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>Add Learning Materials</DialogTitle>
+                        </DialogHeader>
+                        <Tabs defaultValue="youtube" className="w-full">
+                          <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="youtube" className="flex items-center gap-2">
+                              <Youtube className="h-4 w-4" />
+                              YouTube
+                            </TabsTrigger>
+                            <TabsTrigger value="web" className="flex items-center gap-2">
+                              <Link className="h-4 w-4" />
+                              Web Link
+                            </TabsTrigger>
+                            <TabsTrigger value="upload" className="flex items-center gap-2">
+                              <FileText className="h-4 w-4" />
+                              Upload
+                            </TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="youtube" className="space-y-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="youtube-url">YouTube URL</Label>
+                              <Input
+                                id="youtube-url"
+                                placeholder="https://youtube.com/watch?v=..."
+                                value={youtubeUrl}
+                                onChange={(e) => setYoutubeUrl(e.target.value)}
+                              />
+                            </div>
+                            <Button className="w-full">Add YouTube Video</Button>
+                          </TabsContent>
+                          <TabsContent value="web" className="space-y-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="web-url">Website URL</Label>
+                              <Input
+                                id="web-url"
+                                placeholder="https://example.com/article"
+                                value={webUrl}
+                                onChange={(e) => setWebUrl(e.target.value)}
+                              />
+                            </div>
+                            <Button className="w-full">Add Web Resource</Button>
+                          </TabsContent>
+                          <TabsContent value="upload" className="space-y-4">
+                            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+                              <Upload className="h-8 w-8 mx-auto mb-4 text-muted-foreground" />
+                              <p className="text-sm text-muted-foreground mb-2">
+                                Drag and drop files here or click to browse
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                PDF, DOC, TXT files supported
+                              </p>
+                            </div>
+                            <Button className="w-full">Upload Files</Button>
+                          </TabsContent>
+                        </Tabs>
+                      </DialogContent>
+                    </Dialog>
+                    
+                    <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+                        >
+                          <Settings className="h-3.5 w-3.5" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-lg">
+                        <DialogHeader>
+                          <DialogTitle>Structured Prompt Builder</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-6">
                           <div className="space-y-2">
-                            <Label htmlFor="youtube-url">YouTube URL</Label>
-                            <Input
-                              id="youtube-url"
-                              placeholder="https://youtube.com/watch?v=..."
-                              value={youtubeUrl}
-                              onChange={(e) => setYoutubeUrl(e.target.value)}
+                            <Label htmlFor="learning-goal">Learning Goal</Label>
+                            <Textarea
+                              id="learning-goal"
+                              placeholder="What specific skill or knowledge do you want to gain?"
+                              value={learningGoal}
+                              onChange={(e) => setLearningGoal(e.target.value)}
+                              rows={3}
                             />
                           </div>
-                          <Button className="w-full">Add YouTube Video</Button>
-                        </TabsContent>
-                        <TabsContent value="web" className="space-y-4">
                           <div className="space-y-2">
-                            <Label htmlFor="web-url">Website URL</Label>
+                            <Label htmlFor="current-level">Current Level</Label>
                             <Input
-                              id="web-url"
-                              placeholder="https://example.com/article"
-                              value={webUrl}
-                              onChange={(e) => setWebUrl(e.target.value)}
+                              id="current-level"
+                              placeholder="Beginner, Intermediate, or Advanced"
+                              value={currentLevel}
+                              onChange={(e) => setCurrentLevel(e.target.value)}
                             />
                           </div>
-                          <Button className="w-full">Add Web Resource</Button>
-                        </TabsContent>
-                        <TabsContent value="upload" className="space-y-4">
-                          <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                            <Upload className="h-8 w-8 mx-auto mb-4 text-muted-foreground" />
-                            <p className="text-sm text-muted-foreground mb-2">
-                              Drag and drop files here or click to browse
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              PDF, DOC, TXT files supported
-                            </p>
+                          <div className="space-y-2">
+                            <Label htmlFor="time-commitment">Time Commitment</Label>
+                            <Input
+                              id="time-commitment"
+                              placeholder="e.g., 2 hours per week, 30 minutes daily"
+                              value={timeCommitment}
+                              onChange={(e) => setTimeCommitment(e.target.value)}
+                            />
                           </div>
-                          <Button className="w-full">Upload Files</Button>
-                        </TabsContent>
-                      </Tabs>
-                    </DialogContent>
-                  </Dialog>
+                          <div className="flex gap-2">
+                            <Button 
+                              variant="outline" 
+                              className="flex-1"
+                              onClick={() => setSettingsDialogOpen(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button 
+                              className="flex-1"
+                              onClick={() => {
+                                const structuredPrompt = `Create a learning path for: ${learningGoal}\nCurrent level: ${currentLevel}\nTime available: ${timeCommitment}`;
+                                setPrompt(structuredPrompt);
+                                setSettingsDialogOpen(false);
+                              }}
+                            >
+                              Apply to Prompt
+                            </Button>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                   
-                  <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
-                      >
-                        <Settings className="h-3.5 w-3.5" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-lg">
-                      <DialogHeader>
-                        <DialogTitle>Structured Prompt Builder</DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-6">
-                        <div className="space-y-2">
-                          <Label htmlFor="learning-goal">Learning Goal</Label>
-                          <Textarea
-                            id="learning-goal"
-                            placeholder="What specific skill or knowledge do you want to gain?"
-                            value={learningGoal}
-                            onChange={(e) => setLearningGoal(e.target.value)}
-                            rows={3}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="current-level">Current Level</Label>
-                          <Input
-                            id="current-level"
-                            placeholder="Beginner, Intermediate, or Advanced"
-                            value={currentLevel}
-                            onChange={(e) => setCurrentLevel(e.target.value)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="time-commitment">Time Commitment</Label>
-                          <Input
-                            id="time-commitment"
-                            placeholder="e.g., 2 hours per week, 30 minutes daily"
-                            value={timeCommitment}
-                            onChange={(e) => setTimeCommitment(e.target.value)}
-                          />
-                        </div>
-                        <div className="flex gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="flex-1"
-                            onClick={() => setSettingsDialogOpen(false)}
-                          >
-                            Cancel
-                          </Button>
-                          <Button 
-                            className="flex-1"
-                            onClick={() => {
-                              const structuredPrompt = `Create a learning path for: ${learningGoal}\nCurrent level: ${currentLevel}\nTime available: ${timeCommitment}`;
-                              setPrompt(structuredPrompt);
-                              setSettingsDialogOpen(false);
-                            }}
-                          >
-                            Apply to Prompt
-                          </Button>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
                   <Button
                     onClick={generatePath}
                     disabled={isGenerating || !prompt.trim()}
                     size="sm"
-                    className="ml-1 bg-white text-gray-900 hover:bg-white/90 h-10 w-10 p-0 rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50"
+                    className="bg-white text-gray-900 hover:bg-white/90 h-10 w-10 p-0 rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>
@@ -265,17 +270,17 @@ const Index = () => {
       </div>
 
       {/* Workspace */}
-      <div className="bg-background px-8 py-12">
+      <div className="bg-background px-4 sm:px-8 py-8 sm:py-12">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-3xl font-bold tracking-tight">Workspace</h2>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-10 gap-4">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Workspace</h2>
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
               View all
             </Button>
           </div>
           
-          <div className="flex items-center gap-4 mb-8">
-            <div className="relative flex-1 max-w-md">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6 sm:mb-8">
+            <div className="relative flex-1 max-w-full sm:max-w-md">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search learning paths..."
@@ -283,10 +288,10 @@ const Index = () => {
               />
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="h-11">
+              <Button variant="outline" size="sm" className="h-11 flex-1 sm:flex-none">
                 Recent
               </Button>
-              <Button variant="outline" size="sm" className="h-11">
+              <Button variant="outline" size="sm" className="h-11 flex-1 sm:flex-none">
                 Popular
               </Button>
             </div>
