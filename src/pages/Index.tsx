@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Heart, Search, ArrowUp, Trash2 } from "lucide-react";
+import { Brain, Heart, Search, ArrowUp, Trash2, Upload, Settings } from "lucide-react";
 
 interface LearningPath {
   id: string;
@@ -106,14 +106,30 @@ const Index = () => {
                     }
                   }}
                 />
-                <Button
-                  onClick={generatePath}
-                  disabled={isGenerating || !prompt.trim()}
-                  size="sm"
-                  className="ml-3 bg-white text-gray-900 hover:bg-white/90 h-10 w-10 p-0 rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50"
-                >
-                  <ArrowUp className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-2 ml-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+                  >
+                    <Upload className="h-3.5 w-3.5" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+                  >
+                    <Settings className="h-3.5 w-3.5" />
+                  </Button>
+                  <Button
+                    onClick={generatePath}
+                    disabled={isGenerating || !prompt.trim()}
+                    size="sm"
+                    className="ml-1 bg-white text-gray-900 hover:bg-white/90 h-10 w-10 p-0 rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50"
+                  >
+                    <ArrowUp className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
