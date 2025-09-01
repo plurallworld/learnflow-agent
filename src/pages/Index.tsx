@@ -100,169 +100,179 @@ const Index = () => {
             </h1>
           </div>
 
-          <div className="w-full max-w-3xl mx-auto">
+          <div className="w-full max-w-4xl mx-auto">
             <div className="group">
-              <div className="flex items-start bg-white/10 backdrop-blur-md rounded-xl px-4 sm:px-6 py-4 sm:py-6 border border-white/20 shadow-2xl transition-all duration-300 group-hover:bg-white/15 group-hover:border-white/30 group-hover:shadow-elevated">
+              <div className="flex items-center bg-black/20 backdrop-blur-md rounded-full px-6 py-3 border border-white/10 shadow-2xl transition-all duration-300 group-hover:bg-black/30 group-hover:border-white/20">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-full mr-3 transition-all duration-200"
+                >
+                  <div className="h-4 w-4 flex items-center justify-center">
+                    <div className="w-3 h-0.5 bg-current"></div>
+                    <div className="w-0.5 h-3 bg-current absolute"></div>
+                  </div>
+                </Button>
+                
+                <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-3 text-white/60 hover:text-white hover:bg-white/10 rounded-full mr-3 transition-all duration-200 text-xs font-medium"
+                    >
+                      <Upload className="h-3.5 w-3.5 mr-1.5" />
+                      Attach
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Add Learning Materials</DialogTitle>
+                    </DialogHeader>
+                    <Tabs defaultValue="youtube" className="w-full">
+                      <TabsList className="grid w-full grid-cols-3">
+                        <TabsTrigger value="youtube" className="flex items-center gap-2">
+                          <Youtube className="h-4 w-4" />
+                          YouTube
+                        </TabsTrigger>
+                        <TabsTrigger value="web" className="flex items-center gap-2">
+                          <Link className="h-4 w-4" />
+                          Web Link
+                        </TabsTrigger>
+                        <TabsTrigger value="upload" className="flex items-center gap-2">
+                          <FileText className="h-4 w-4" />
+                          Upload
+                        </TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="youtube" className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="youtube-url">YouTube URL</Label>
+                          <Input
+                            id="youtube-url"
+                            placeholder="https://youtube.com/watch?v=..."
+                            value={youtubeUrl}
+                            onChange={(e) => setYoutubeUrl(e.target.value)}
+                          />
+                        </div>
+                        <Button className="w-full">Add YouTube Video</Button>
+                      </TabsContent>
+                      <TabsContent value="web" className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="web-url">Website URL</Label>
+                          <Input
+                            id="web-url"
+                            placeholder="https://example.com/article"
+                            value={webUrl}
+                            onChange={(e) => setWebUrl(e.target.value)}
+                          />
+                        </div>
+                        <Button className="w-full">Add Web Resource</Button>
+                      </TabsContent>
+                      <TabsContent value="upload" className="space-y-4">
+                        <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+                          <Upload className="h-8 w-8 mx-auto mb-4 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground mb-2">
+                            Drag and drop files here or click to browse
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            PDF, DOC, TXT files supported
+                          </p>
+                        </div>
+                        <Button className="w-full">Upload Files</Button>
+                      </TabsContent>
+                    </Tabs>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-3 text-white/60 hover:text-white hover:bg-white/10 rounded-full mr-4 transition-all duration-200 text-xs font-medium"
+                    >
+                      <Brain className="h-3.5 w-3.5 mr-1.5" />
+                      Workspace
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-lg">
+                    <DialogHeader>
+                      <DialogTitle>Structured Prompt Builder</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="learning-goal">Learning Goal</Label>
+                        <Textarea
+                          id="learning-goal"
+                          placeholder="What specific skill or knowledge do you want to gain?"
+                          value={learningGoal}
+                          onChange={(e) => setLearningGoal(e.target.value)}
+                          rows={3}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="current-level">Current Level</Label>
+                        <Input
+                          id="current-level"
+                          placeholder="Beginner, Intermediate, or Advanced"
+                          value={currentLevel}
+                          onChange={(e) => setCurrentLevel(e.target.value)}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="time-commitment">Time Commitment</Label>
+                        <Input
+                          id="time-commitment"
+                          placeholder="e.g., 2 hours per week, 30 minutes daily"
+                          value={timeCommitment}
+                          onChange={(e) => setTimeCommitment(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="outline" 
+                          className="flex-1"
+                          onClick={() => setSettingsDialogOpen(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button 
+                          className="flex-1"
+                          onClick={() => {
+                            const structuredPrompt = `Create a learning path for: ${learningGoal}\nCurrent level: ${currentLevel}\nTime available: ${timeCommitment}`;
+                            setPrompt(structuredPrompt);
+                            setSettingsDialogOpen(false);
+                          }}
+                        >
+                          Apply to Prompt
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                
                 <Textarea
-                  placeholder="Describe what you want to learn in detail..."
+                  placeholder="Ask DeepCoach to create a learning path that..."
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="flex-1 border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-base resize-none min-h-[60px] sm:min-h-[80px]"
+                  className="flex-1 border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-sm resize-none min-h-[20px] max-h-[120px] leading-5"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
                       generatePath();
                     }
                   }}
-                  rows={3}
+                  rows={1}
                 />
-                <div className="flex flex-col sm:flex-row items-center gap-2 ml-3 mt-1">
-                  <div className="flex items-center gap-2">
-                    <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
-                        >
-                          <Upload className="h-3.5 w-3.5" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>Add Learning Materials</DialogTitle>
-                        </DialogHeader>
-                        <Tabs defaultValue="youtube" className="w-full">
-                          <TabsList className="grid w-full grid-cols-3">
-                            <TabsTrigger value="youtube" className="flex items-center gap-2">
-                              <Youtube className="h-4 w-4" />
-                              YouTube
-                            </TabsTrigger>
-                            <TabsTrigger value="web" className="flex items-center gap-2">
-                              <Link className="h-4 w-4" />
-                              Web Link
-                            </TabsTrigger>
-                            <TabsTrigger value="upload" className="flex items-center gap-2">
-                              <FileText className="h-4 w-4" />
-                              Upload
-                            </TabsTrigger>
-                          </TabsList>
-                          <TabsContent value="youtube" className="space-y-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="youtube-url">YouTube URL</Label>
-                              <Input
-                                id="youtube-url"
-                                placeholder="https://youtube.com/watch?v=..."
-                                value={youtubeUrl}
-                                onChange={(e) => setYoutubeUrl(e.target.value)}
-                              />
-                            </div>
-                            <Button className="w-full">Add YouTube Video</Button>
-                          </TabsContent>
-                          <TabsContent value="web" className="space-y-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="web-url">Website URL</Label>
-                              <Input
-                                id="web-url"
-                                placeholder="https://example.com/article"
-                                value={webUrl}
-                                onChange={(e) => setWebUrl(e.target.value)}
-                              />
-                            </div>
-                            <Button className="w-full">Add Web Resource</Button>
-                          </TabsContent>
-                          <TabsContent value="upload" className="space-y-4">
-                            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                              <Upload className="h-8 w-8 mx-auto mb-4 text-muted-foreground" />
-                              <p className="text-sm text-muted-foreground mb-2">
-                                Drag and drop files here or click to browse
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                PDF, DOC, TXT files supported
-                              </p>
-                            </div>
-                            <Button className="w-full">Upload Files</Button>
-                          </TabsContent>
-                        </Tabs>
-                      </DialogContent>
-                    </Dialog>
-                    
-                    <Dialog open={settingsDialogOpen} onOpenChange={setSettingsDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 w-8 p-0 text-white/60 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
-                        >
-                          <Settings className="h-3.5 w-3.5" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-lg">
-                        <DialogHeader>
-                          <DialogTitle>Structured Prompt Builder</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-6">
-                          <div className="space-y-2">
-                            <Label htmlFor="learning-goal">Learning Goal</Label>
-                            <Textarea
-                              id="learning-goal"
-                              placeholder="What specific skill or knowledge do you want to gain?"
-                              value={learningGoal}
-                              onChange={(e) => setLearningGoal(e.target.value)}
-                              rows={3}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="current-level">Current Level</Label>
-                            <Input
-                              id="current-level"
-                              placeholder="Beginner, Intermediate, or Advanced"
-                              value={currentLevel}
-                              onChange={(e) => setCurrentLevel(e.target.value)}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="time-commitment">Time Commitment</Label>
-                            <Input
-                              id="time-commitment"
-                              placeholder="e.g., 2 hours per week, 30 minutes daily"
-                              value={timeCommitment}
-                              onChange={(e) => setTimeCommitment(e.target.value)}
-                            />
-                          </div>
-                          <div className="flex gap-2">
-                            <Button 
-                              variant="outline" 
-                              className="flex-1"
-                              onClick={() => setSettingsDialogOpen(false)}
-                            >
-                              Cancel
-                            </Button>
-                            <Button 
-                              className="flex-1"
-                              onClick={() => {
-                                const structuredPrompt = `Create a learning path for: ${learningGoal}\nCurrent level: ${currentLevel}\nTime available: ${timeCommitment}`;
-                                setPrompt(structuredPrompt);
-                                setSettingsDialogOpen(false);
-                              }}
-                            >
-                              Apply to Prompt
-                            </Button>
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                  
-                  <Button
-                    onClick={generatePath}
-                    disabled={isGenerating || !prompt.trim()}
-                    size="sm"
-                    className="bg-white text-gray-900 hover:bg-white/90 h-10 w-10 p-0 rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50"
-                  >
-                    <ArrowUp className="h-4 w-4" />
-                  </Button>
-                </div>
+                
+                <Button
+                  onClick={generatePath}
+                  disabled={isGenerating || !prompt.trim()}
+                  size="sm"
+                  className="ml-4 bg-white/10 text-white hover:bg-white/20 h-8 w-8 p-0 rounded-full transition-all duration-200 disabled:opacity-50 border border-white/10"
+                >
+                  <ArrowUp className="h-3.5 w-3.5" />
+                </Button>
               </div>
             </div>
           </div>
