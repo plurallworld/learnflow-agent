@@ -94,13 +94,10 @@ const Index = () => {
         <div className="text-center space-y-12 max-w-5xl">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]">
-              Build something{" "}
+              Learn something{" "}
               <Heart className="inline h-12 w-12 md:h-16 md:w-16 text-pink-400 fill-current" />{" "}
               DeepCoach
             </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-              Create personalized learning paths with AI
-            </p>
           </div>
 
           <div className="w-full max-w-2xl">
