@@ -18,7 +18,8 @@ interface LearningPath {
 }
 
 const Index = () => {
-  const [prompt, setPrompt] = useState("");
+  const [whatToLearn, setWhatToLearn] = useState("");
+  const [whatToAchieve, setWhatToAchieve] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
@@ -53,13 +54,14 @@ const Index = () => {
   ];
 
   const generatePath = async () => {
-    if (!prompt.trim()) return;
+    if (!whatToLearn.trim() && !whatToAchieve.trim()) return;
     setIsGenerating(true);
     
     // Simulate generation
     setTimeout(() => {
       setIsGenerating(false);
-      setPrompt("");
+      setWhatToLearn("");
+      setWhatToAchieve("");
     }, 3000);
   };
 
@@ -103,20 +105,34 @@ const Index = () => {
           <div className="w-full max-w-4xl mx-auto">
             <div className="group">
               <div className="bg-black/20 backdrop-blur-md rounded-3xl px-6 py-6 border border-white/10 shadow-2xl transition-all duration-300 group-hover:bg-black/30 group-hover:border-white/20">
-                <div className="flex flex-col h-full min-h-[120px]">
-                  <Textarea
-                    placeholder="Ask DeepCoach to create a learning path that..."
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    className="flex-1 border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-base resize-none min-h-[80px] leading-6 mb-4"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        generatePath();
-                      }
-                    }}
-                    rows={3}
-                  />
+                <div className="flex flex-col h-full min-h-[160px]">
+                  <div className="flex-1 space-y-3 mb-4">
+                    <Input
+                      placeholder="What do you want to learn?"
+                      value={whatToLearn}
+                      onChange={(e) => setWhatToLearn(e.target.value)}
+                      className="border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-base h-12"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          generatePath();
+                        }
+                      }}
+                    />
+                    <div className="w-full h-px bg-white/10"></div>
+                    <Input
+                      placeholder="What do you want to achieve?"
+                      value={whatToAchieve}
+                      onChange={(e) => setWhatToAchieve(e.target.value)}
+                      className="border-0 bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 text-base h-12"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          generatePath();
+                        }
+                      }}
+                    />
+                  </div>
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -256,8 +272,8 @@ const Index = () => {
                               <Button 
                                 className="flex-1"
                                 onClick={() => {
-                                  const structuredPrompt = `Create a learning path for: ${learningGoal}\nCurrent level: ${currentLevel}\nTime available: ${timeCommitment}`;
-                                  setPrompt(structuredPrompt);
+                                  setWhatToLearn(learningGoal);
+                                  setWhatToAchieve(`${currentLevel} level - ${timeCommitment}`);
                                   setSettingsDialogOpen(false);
                                 }}
                               >
@@ -271,7 +287,7 @@ const Index = () => {
                     
                     <Button
                       onClick={generatePath}
-                      disabled={isGenerating || !prompt.trim()}
+                      disabled={isGenerating || (!whatToLearn.trim() && !whatToAchieve.trim())}
                       size="sm"
                       className="bg-white/10 text-white hover:bg-white/20 h-8 w-8 p-0 rounded-full transition-all duration-200 disabled:opacity-50 border border-white/10"
                     >
