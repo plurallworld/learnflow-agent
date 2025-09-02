@@ -54,11 +54,17 @@ const Index = () => {
   ];
 
   const generatePath = async () => {
-    if (!whatToLearn.trim() && !whatToAchieve.trim()) return;
+    console.log("generatePath called", { whatToLearn, whatToAchieve });
+    if (!whatToLearn.trim() && !whatToAchieve.trim()) {
+      console.log("Both fields empty, returning early");
+      return;
+    }
+    console.log("Starting generation...");
     setIsGenerating(true);
     
     // Simulate generation
     setTimeout(() => {
+      console.log("Generation complete");
       setIsGenerating(false);
       setWhatToLearn("");
       setWhatToAchieve("");
