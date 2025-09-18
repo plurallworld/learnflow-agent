@@ -200,10 +200,8 @@ const Index = () => {
       <div className="flex flex-col items-center justify-center px-4 sm:px-8 py-12 sm:py-20 bg-gradient-hero text-white min-h-[75vh]">
         <div className="text-center space-y-8 sm:space-y-12 max-w-5xl w-full">
           <div className="space-y-4 sm:space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] whitespace-nowrap">
-              Learn something{" "}
-              <Heart className="inline h-8 w-8 sm:h-10 w-10 md:h-12 w-12 lg:h-14 w-14 xl:h-16 w-16 text-pink-400 fill-current" />{" "}
-              DeepCoach
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1]">
+              Have 10 minutes, learn something new
             </h1>
           </div>
 
