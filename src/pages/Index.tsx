@@ -201,7 +201,8 @@ const Index = () => {
         <div className="text-center space-y-8 sm:space-y-12 max-w-5xl w-full">
           <div className="space-y-4 sm:space-y-6">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1]">
-              Have 10 minutes, learn something new
+              Have 10 minutes?<br />
+              learn something new
             </h1>
           </div>
 
