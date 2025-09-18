@@ -7,7 +7,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Brain, Heart, Search, ArrowUp, Trash2, Upload, Settings, Link, FileText, Youtube } from "lucide-react";
+import { Brain, Heart, Search, ArrowUp, Trash2, Upload, Settings, Link, FileText, Youtube, Clock, Target } from "lucide-react";
+import { LearningModule } from "@/components/LearningModule";
 
 interface LearningPath {
   id: string;
@@ -17,10 +18,34 @@ interface LearningPath {
   created: string;
 }
 
+interface GeneratedModule {
+  id: number;
+  title: string;
+  type: 'concept' | 'case' | 'coding' | 'video' | 'mcq';
+  duration: string;
+  description: string;
+  completed: boolean;
+  outcome: string;
+  prerequisites: string[];
+  nextSteps: string[];
+  keyTopics: string[];
+}
+
+interface GeneratedCourse {
+  id: string;
+  title: string;
+  description: string;
+  totalDuration: string;
+  learningObjective: string;
+  targetLevel: string;
+  modules: GeneratedModule[];
+}
+
 const Index = () => {
   const [whatToLearn, setWhatToLearn] = useState("");
   const [whatToAchieve, setWhatToAchieve] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedCourse, setGeneratedCourse] = useState<GeneratedCourse | null>(null);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
   const [youtubeUrl, setYoutubeUrl] = useState("");
@@ -62,9 +87,83 @@ const Index = () => {
     console.log("Starting generation...");
     setIsGenerating(true);
     
-    // Simulate generation
+    // Simulate generation with dynamic content
     setTimeout(() => {
       console.log("Generation complete");
+      
+      // Create a course based on user input
+      const course: GeneratedCourse = {
+        id: Date.now().toString(),
+        title: `${whatToLearn || 'Custom Learning Path'}`,
+        description: `A comprehensive learning path to help you ${whatToAchieve || 'achieve your goals'}.`,
+        totalDuration: "6-8 weeks",
+        learningObjective: whatToAchieve || "Master the fundamentals and apply them practically",
+        targetLevel: "Beginner to Intermediate",
+        modules: [
+          {
+            id: 1,
+            title: `Introduction to ${whatToLearn}`,
+            type: 'concept',
+            duration: "45 min",
+            description: `Learn the fundamental concepts and principles of ${whatToLearn}.`,
+            completed: false,
+            outcome: `Understand the core concepts and terminology of ${whatToLearn}`,
+            prerequisites: ["Basic understanding of related field", "Commitment to learning"],
+            nextSteps: ["Apply concepts in practice", "Move to hands-on exercises"],
+            keyTopics: ["Core principles", "Key terminology", "Historical context", "Current applications"]
+          },
+          {
+            id: 2,
+            title: `Practical Applications`,
+            type: 'case',
+            duration: "60 min",
+            description: `Explore real-world case studies and applications.`,
+            completed: false,
+            outcome: `Analyze real-world scenarios and understand practical implications`,
+            prerequisites: ["Completion of Module 1", "Basic conceptual knowledge"],
+            nextSteps: ["Implement solutions", "Practice with tools"],
+            keyTopics: ["Case studies", "Industry examples", "Best practices", "Common challenges"]
+          },
+          {
+            id: 3,
+            title: `Hands-on Implementation`,
+            type: 'coding',
+            duration: "90 min",
+            description: `Build and implement solutions using practical tools and techniques.`,
+            completed: false,
+            outcome: `Create working implementations and solve real problems`,
+            prerequisites: ["Understanding of concepts", "Case study analysis"],
+            nextSteps: ["Advanced techniques", "Project work"],
+            keyTopics: ["Tools and frameworks", "Implementation strategies", "Debugging", "Testing"]
+          },
+          {
+            id: 4,
+            title: `Advanced Techniques`,
+            type: 'video',
+            duration: "75 min",
+            description: `Learn advanced methods and optimization strategies.`,
+            completed: false,
+            outcome: `Master advanced techniques and optimization approaches`,
+            prerequisites: ["Hands-on experience", "Basic implementation skills"],
+            nextSteps: ["Real-world projects", "Specialization areas"],
+            keyTopics: ["Advanced methods", "Optimization", "Performance", "Scalability"]
+          },
+          {
+            id: 5,
+            title: `Final Assessment`,
+            type: 'mcq',
+            duration: "30 min",
+            description: `Test your knowledge and understanding through comprehensive assessment.`,
+            completed: false,
+            outcome: `Demonstrate mastery of ${whatToLearn} concepts and applications`,
+            prerequisites: ["Completion of all modules", "Practical experience"],
+            nextSteps: ["Certification", "Advanced courses", "Real-world projects"],
+            keyTopics: ["Comprehensive review", "Problem solving", "Application scenarios", "Best practices"]
+          }
+        ]
+      };
+      
+      setGeneratedCourse(course);
       setIsGenerating(false);
       setWhatToLearn("");
       setWhatToAchieve("");
@@ -306,6 +405,68 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Generated Course Results */}
+      {generatedCourse && (
+        <div className="bg-gradient-subtle px-4 sm:px-8 py-8 sm:py-12 border-b border-border/10">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">Your Learning Path</h2>
+              <p className="text-muted-foreground">Here's your personalized course based on your goals</p>
+            </div>
+
+            {/* Course Overview */}
+            <Card className="mb-8 shadow-elevated border-primary/10 bg-gradient-card">
+              <div className="p-6 sm:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2 space-y-4">
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">{generatedCourse.title}</h3>
+                      <p className="text-muted-foreground">{generatedCourse.description}</p>
+                    </div>
+                    
+                    <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-muted-foreground" />
+                        <span>{generatedCourse.totalDuration}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Target className="h-4 w-4 text-muted-foreground" />
+                        <span>{generatedCourse.targetLevel}</span>
+                      </div>
+                      <Badge variant="outline" className="text-primary border-primary/20">
+                        {generatedCourse.modules.length} modules
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="p-4 bg-primary/5 rounded-lg border border-primary/10">
+                      <h4 className="font-medium text-sm mb-2 text-primary">Learning Objective</h4>
+                      <p className="text-sm text-muted-foreground">{generatedCourse.learningObjective}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Learning Modules */}
+            <div className="space-y-6">
+              {generatedCourse.modules.map((module, index) => (
+                <LearningModule
+                  key={module.id}
+                  module={module}
+                  moduleNumber={index + 1}
+                  onModuleClick={(module) => {
+                    console.log("Module clicked:", module);
+                    // TODO: Navigate to detailed module view
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Workspace */}
       <div className="bg-background px-4 sm:px-8 py-8 sm:py-12">
